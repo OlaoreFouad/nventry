@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "663032536738",
+    "project_id": "nventry-services",
+    "storage_bucket": "nventry-services.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:663032536738:android:ad88be6b55a3c2e1f2c1fb",
+        "android_client_info": {
+          "package_name": "dev.olaore.nventry"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "663032536738-sjc0c92ov3aa8vu3aq4khon70nt6clga.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBE0kod2rzInIurVidsR8lfbKc2xSKxRZY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "663032536738-sjc0c92ov3aa8vu3aq4khon70nt6clga.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
