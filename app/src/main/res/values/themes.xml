@@ -1,16 +1,38 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-  <!-- Base application theme. -->
-  <style name="Theme.Nventry" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-	<!-- Primary brand color. -->
-	<item name="colorPrimary">@color/primary_color</item>
-	<item name="colorPrimaryVariant">@color/primary_color_dark</item>
-	<item name="colorOnPrimary">@color/white</item>
-	<!-- Secondary brand color. -->
-	<item name="colorSecondary">@color/secondary_color</item>
-	<item name="colorSecondaryVariant">@color/secondary_color_dark</item>
-	<item name="colorOnSecondary">@color/black</item>
-	<!-- Status bar color. -->
-	<item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-	<!-- Customize your theme here. -->
-  </style>
+    <!-- Base application theme. -->
+    <style name="Theme.Nventry" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/primary_color</item>
+        <item name="colorPrimaryVariant">@color/primary_color_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/secondary_color</item>
+        <item name="colorSecondaryVariant">@color/secondary_color_dark</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="fontFamily">@font/kiwi_maru</item>
+        <item name="android:fontFamily">@font/kiwi_maru</item>
+    </style>
+
+    <style name="PrimaryButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:backgroundTint" tools:targetApi="lollipop">@drawable/primary_button
+        </item>
+        <item name="rippleColor">@android:color/transparent</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">@dimen/default_font_size</item>
+    </style>
+
+    <style name="Indicator">
+        <item name="android:layout_height">@dimen/indicator_size</item>
+        <item name="android:layout_width">@dimen/indicator_size</item>
+        <item name="android:layout_marginEnd">@dimen/indicator_margin_size</item>
+        <item name="android:layout_marginStart">@dimen/indicator_margin_size</item>
+    </style>
+
+    <style name="Indicator.Active">
+        <item name="android:layout_width">@dimen/active_indicator_width</item>
+    </style>
+
+
 </resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="splash_screen_font_size">48sp</dimen>
+    <dimen name="medium_font_size">24sp</dimen>
+    <dimen name="indicator_size">15dp</dimen>
+    <dimen name="indicator_margin_size">5dp</dimen>
+    <dimen name="default_font_size">18sp</dimen>
+    <dimen name="active_indicator_width">30dp</dimen>
+</resources>

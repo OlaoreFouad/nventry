@@ -1,4 +1,12 @@
 <resources>
-  <string name="app_name">nventry</string>
-  <string name="hello_world">Hello, world!</string>
+    <string name="app_name">nventry</string>
+    <string name="hello_world">Hello, world!</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="nventry_text">nventry</string>
+    <string name="lorem_ipsum_placeholder">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec egestas gravida velit nec feugiat. Sed pharetra semper elementum.</string>
+    <string name="skip_text">Skip</string>
+    <string name="next_text">Next</string>
+    <string name="get_started_text">Get Started</string>
+    <string name="back_text">Back</string>
 </resources>

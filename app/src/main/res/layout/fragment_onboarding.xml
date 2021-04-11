@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="currentPage"
+            type="Integer" />
+
+        <import type="android.view.View" alias="V"/>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/secondary_color_dark"
+        tools:context=".ui.fragments.OnboardingFragment">
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/onboarding_view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/indicators"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/indicators"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_horizontal"
+            android:padding="10dp"
+            app:layout_constraintBottom_toTopOf="@id/get_started_button">
+
+            <TextView
+                style="@style/Indicator"
+                indicatorWidth="@{ currentPage == 0 ? true : false }"
+                android:background="@{ currentPage == 0 ? @drawable/indicator_active : @drawable/indicator_inactive }" />
+
+            <TextView
+                style="@style/Indicator"
+                indicatorWidth="@{ currentPage == 1 ? true : false }"
+                android:background="@{ currentPage == 1 ? @drawable/indicator_active : @drawable/indicator_inactive }" />
+
+            <TextView
+                style="@style/Indicator"
+                indicatorWidth="@{ currentPage == 2 ? true : false }"
+                android:background="@{ currentPage == 2 ? @drawable/indicator_active : @drawable/indicator_inactive }" />
+
+        </LinearLayout>
+
+        <Button
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="@string/skip_text"
+            android:id="@+id/skip_button"
+            android:textAllCaps="false"
+            android:visibility="@{ (currentPage == 0 || currentPage == 1) ? V.VISIBLE : V.INVISIBLE }"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <Button
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="@string/back_text"
+            android:id="@+id/back_button"
+            android:textAllCaps="false"
+            android:visibility="@{ (currentPage == 1 || currentPage == 2) ? V.VISIBLE : V.INVISIBLE }"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:drawableEnd="@drawable/arrow_right"
+            android:id="@+id/next_button"
+            android:text="@string/next_text"
+            android:textAllCaps="false"
+            android:visibility="@{ (currentPage == 0 || currentPage == 1) ? V.VISIBLE : V.INVISIBLE }"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <Button
+            android:id="@+id/get_started_button"
+            style="@style/PrimaryButton"
+            android:visibility="@{ currentPage == 2 ? V.VISIBLE : V.INVISIBLE }"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:padding="20dp"
+            android:text="@string/get_started_text"
+            android:textAllCaps="true"
+            app:layout_constraintBottom_toTopOf="@id/back_button"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
