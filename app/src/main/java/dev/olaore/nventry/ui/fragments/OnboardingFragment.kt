@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import dev.olaore.nventry.databinding.FragmentOnboardingBinding
 import dev.olaore.nventry.ui.adapters.OnboardingAdapter
@@ -58,6 +59,12 @@ class OnboardingFragment : Fragment() {
 
         binding.nextButton.setOnClickListener {
             showNextPage(binding.onboardingViewPager.currentItem)
+        }
+
+        binding.getStartedButton.setOnClickListener {
+            findNavController().navigate(
+                OnboardingFragmentDirections.actionOnboardingFragmentToSignupFragment()
+            )
         }
 
         binding.apply {
