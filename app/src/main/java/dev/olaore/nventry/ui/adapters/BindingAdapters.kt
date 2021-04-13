@@ -2,6 +2,7 @@ package dev.olaore.nventry.ui.adapters
 
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.google.android.material.textfield.TextInputLayout
 import dev.olaore.nventry.R
 
 @BindingAdapter("indicatorWidth")
@@ -15,4 +16,16 @@ fun setIndicatorStyle(view: TextView, state: Boolean) {
     }
     view.layoutParams = layoutParams
 
+}
+
+@BindingAdapter("errorText")
+fun errorText(view: TextInputLayout, text: String) {
+    view.error = text
+}
+
+@BindingAdapter("extErrorText")
+fun extErrorText(view: TextInputLayout, text: String) {
+    if (view.editText!!.text.isNotBlank()) {
+        view.error = text
+    }
 }

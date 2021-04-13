@@ -5,6 +5,12 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="dev.olaore.nventry.ui.viewmodels.LoginViewModel" />
+
+        <import type="dev.olaore.nventry.models.domain.FormErrors" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,6 +42,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/email_edit_text"
+            errorText='@{ viewModel.formErrors.contains(FormErrors.INVALID_EMAIL) ? "Email address is invalid" : "" }'
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -46,12 +53,14 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="@string/email_hint" />
+                android:hint="@string/email_hint"
+                android:text="@={ viewModel.email }" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/password_edit_text"
+            errorText='@{ viewModel.formErrors.contains(FormErrors.INVALID_PASSWORD) ? "Minimum of 8 characters are required for password" : "" }'
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -62,7 +71,9 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="@string/password_hint" />
+                android:hint="@string/password_hint"
+                android:inputType="textPassword"
+                android:text="@={ viewModel.password }" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -74,6 +85,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
+            android:enabled="@{ viewModel.enabled }"
             android:text="@string/login_text"
             app:layout_constraintTop_toBottomOf="@id/password_edit_text" />
 
