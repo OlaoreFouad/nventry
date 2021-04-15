@@ -9,7 +9,7 @@ import dev.olaore.nventry.repositories.UserRepository
 class NventryApplication : Application() {
 
     val userRepository: UserRepository
-        get() = UserRepository(getUsersDatabase())
+        get() = UserRepository(getUsersDatabase(applicationContext))
 
     val businessRepository: BusinessRepository
         get() = BusinessRepository(getNventryDatabase())
