@@ -1,5 +1,7 @@
 package dev.olaore.nventry.ui.fragments
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
@@ -8,14 +10,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import dev.olaore.nventry.MainActivity
 import dev.olaore.nventry.R
 import dev.olaore.nventry.databinding.FragmentSignupBinding
+import dev.olaore.nventry.models.database.DatabaseUser
+import dev.olaore.nventry.network.Status
 import dev.olaore.nventry.ui.viewmodels.SignupViewModel
-import dev.olaore.nventry.utils.CustomClickableSpan
-import dev.olaore.nventry.utils.createSpannableText
-import dev.olaore.nventry.utils.obtainViewModel
+import dev.olaore.nventry.utils.*
+import java.util.*
 
 class SignupFragment : Fragment() {
 
@@ -42,9 +48,40 @@ class SignupFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         createLoginSpannable()
 
+        viewModel.createdAccount.observe(viewLifecycleOwner, Observer {
+
+            binding.isLoading = it.status == Status.LOADING
+            when (it.status) {
+                Status.SUCCESS -> {
+                    val user: DatabaseUser? = it.data
+                    showSnackbar(binding.isLoadingProgress, "User created successfully!")
+                    viewModel.saveUserDetailsToDatabase(user!!)
+                    Prefs.saveAuthenticatedUser(requireContext(), user.userId)
+                    openHome()
+                }
+                Status.ERROR -> {
+                    showSnackbar(binding.isLoadingProgress, "Error occurred while creating account: " + it.message)
+                }
+            }
+
+        })
+
         binding.signupButton.setOnClickListener {
+            closeKeyboard()
             viewModel.createAccount()
         }
+
+    }
+
+    private fun closeKeyboard() {
+        val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        var view = requireActivity().currentFocus
+
+        if (view == null) {
+            view = View(requireContext())
+        }
+
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
 
     }
 
@@ -72,6 +109,12 @@ class SignupFragment : Fragment() {
         findNavController().navigate(
             SignupFragmentDirections.actionSignupFragmentToLoginFragment()
         )
+    }
+
+    private fun openHome() {
+        val homeIntent = Intent(requireActivity(), MainActivity::class.java)
+        startActivity(homeIntent)
+        requireActivity().finish()
     }
 
 }

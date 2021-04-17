@@ -75,13 +75,13 @@ class SignupViewModel (
                     if (it.isSuccessful) {
                         saveUserDetails(user)
                     } else {
-                        createdAccount.postValue(Resource.error("Error occurred while creating account"))
+                        createdAccount.postValue(Resource.error(it.exception?.message!!))
                     }
                 }
 
             } catch (ex: Exception) {
                 createdAccount.postValue(
-                    Resource.error("Error occurred while creating account: " + ex.message)
+                    Resource.error(ex.message!!)
                 )
             }
         }

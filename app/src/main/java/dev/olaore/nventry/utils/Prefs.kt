@@ -26,7 +26,7 @@ object Prefs {
         sharedPreferencesEditor.apply()
     }
 
-    fun isUserAuthenticated(context: Context, userId: String): Boolean {
+    fun isUserAuthenticated(context: Context): Boolean {
         val sharedPreferences = context.getSharedPreferences(PREFS_TAG, Context.MODE_PRIVATE)
         return sharedPreferences.getBoolean(AUTHENTICATED_KEY, false)
     }

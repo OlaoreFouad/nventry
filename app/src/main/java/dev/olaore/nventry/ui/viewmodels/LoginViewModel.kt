@@ -28,11 +28,11 @@ import kotlinx.coroutines.launch
 * */
 
 class LoginViewModel(
-    val userRepository: UserRepository
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
-    var email = MutableLiveData<String>()
-    var password = MutableLiveData<String>()
+    var email = MutableLiveData<String>("")
+    var password = MutableLiveData<String>("")
     lateinit var databaseUser: DatabaseUser
 
     var loggedInUser = MutableLiveData<Resource<DatabaseUser>>()

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import dev.olaore.nventry.R
+import dev.olaore.nventry.utils.Prefs
 
 class SplashScreenFragment : Fragment() {
 
@@ -21,10 +22,14 @@ class SplashScreenFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val authenticated = Prefs.isUserAuthenticated(requireContext())
+        val action = if (authenticated) {
+            SplashScreenFragmentDirections.actionSplashScreenFragmentToLoginFragment()
+        } else {
+            SplashScreenFragmentDirections.actionSplashScreenFragmentToOnboardingFragment()
+        }
         Handler().postDelayed({
-            findNavController().navigate(
-                R.id.action_splashScreenFragment_to_onboardingFragment
-            )
+            findNavController().navigate(action)
         }, 4000)
     }
 

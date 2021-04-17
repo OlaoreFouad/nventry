@@ -8,8 +8,12 @@
         <variable
             name="viewModel"
             type="dev.olaore.nventry.ui.viewmodels.LoginViewModel" />
+        <variable
+            name="isLoading"
+            type="Boolean" />
 
         <import type="dev.olaore.nventry.models.domain.FormErrors" />
+        <import type="android.view.View" alias="V"/>
 
     </data>
 
@@ -88,6 +92,20 @@
             android:enabled="@{ viewModel.enabled }"
             android:text="@string/login_text"
             app:layout_constraintTop_toBottomOf="@id/password_edit_text" />
+
+        <ProgressBar
+            android:id="@+id/is_loading_progress"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:theme="@style/Theme.Nventry.WhiteAccent"
+            app:layout_constraintBottom_toBottomOf="@id/login_button"
+            android:visibility="@{ isLoading ? V.VISIBLE : V.GONE }"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias=".3"
+            android:indeterminate="true"
+            android:elevation="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/login_button" />
 
         <TextView
             android:id="@+id/dont_have_an_account_text"
