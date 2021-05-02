@@ -20,4 +20,9 @@
     <string name="sign_up_to_get_started">Sign up to get started</string>
     <string name="signup_text">Sign up</string>
     <string name="already_have_an_account_login">Already have an account? Login</string>
+    <string name="business_name_text">Business Name</string>
+    <string name="businesses_text">Businesses</string>
+    <string name="profile_text">Profile</string>
+    <string name="your_businesses">Your Businesses</string>
+    <string name="empty_screen_text_txt">This place looks empty, create a business to get started</string>
 </resources>
