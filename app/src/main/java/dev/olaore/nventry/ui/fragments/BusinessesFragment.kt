@@ -6,17 +6,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import dev.olaore.nventry.R
+import dev.olaore.nventry.databinding.FragmentBusinessesBinding
 
 class BusinessesFragment : Fragment() {
+
+    private lateinit var binding: FragmentBusinessesBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(
-            R.layout.fragment_businesses, container, false
+        binding = FragmentBusinessesBinding.inflate(
+            inflater, container, false
         )
+
+        binding.addBusinessButton.setOnClickListener {  }
+
+        return binding.root
     }
 
 }

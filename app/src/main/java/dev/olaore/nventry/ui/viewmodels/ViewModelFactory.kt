@@ -16,6 +16,8 @@ class ViewModelFactory(
         return when (modelClass) {
             SignupViewModel::class.java -> SignupViewModel(userRepository)
             LoginViewModel::class.java -> LoginViewModel(userRepository)
+            BusinessesViewModel::class.java -> BusinessesViewModel(userRepository, businessRepository)
+            UpsertBusinessViewModel::class.java -> UpsertBusinessViewModel(userRepository, businessRepository)
             else -> throw IllegalArgumentException("Argument passed in must be of type ViewModel")
         } as T
     }

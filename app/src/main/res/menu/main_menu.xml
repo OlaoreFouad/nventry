@@ -4,13 +4,13 @@
     xmlns:app1="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/nav_businesses"
+        android:id="@+id/businesses"
         android:icon="@drawable/ic_businesses"
         app:showAsAction="always"
         android:title="@string/businesses_text" />
 
     <item
-        android:id="@+id/nav_profile"
+        android:id="@+id/profile"
         android:icon="@drawable/ic_profile"
         app1:showAsAction="always"
         android:title="@string/profile_text" />

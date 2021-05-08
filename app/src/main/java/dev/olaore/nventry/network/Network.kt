@@ -5,6 +5,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import dev.olaore.nventry.models.network.NetworkBusiness
 import dev.olaore.nventry.models.network.NetworkUser
 
 object Network {
@@ -24,6 +25,15 @@ object Network {
 
     fun getUser(email: String): Task<QuerySnapshot> {
         return db.collection("users").whereEqualTo("email", email).get()
+    }
+
+    fun saveBusiness(business: NetworkBusiness, id: String): Task<Void> {
+        business.businessId = id
+        return db.collection("businesses").document(id).set(business)
+    }
+
+    fun getBusiness(id: String): Task<QuerySnapshot> {
+        return db.collection("businesses").whereEqualTo("businessId", id).get()
     }
 
 }

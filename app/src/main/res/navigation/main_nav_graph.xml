@@ -3,11 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
-    app:startDestination="@id/homeFragment">
-
+    app:startDestination="@id/businesses">
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="dev.olaore.nventry.ui.fragments.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/businesses"
+        android:name="dev.olaore.nventry.ui.fragments.BusinessesFragment"
+        android:label="BusinessesFragment" />
+    <fragment
+        android:id="@+id/profile"
+        android:name="dev.olaore.nventry.ui.fragments.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>

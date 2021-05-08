@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/main_bottom_nav"
+        app:layout_constraintTop_toTopOf="parent"
         app:defaultNavHost="true"
         app:navGraph="@navigation/main_nav_graph" />
 
@@ -19,6 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/main_bottom_nav"
+        app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/main_menu"/>
 
