@@ -6,6 +6,7 @@ import android.text.Spanned
 import android.text.style.ClickableSpan
 import android.util.Log
 import android.util.Patterns
+import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar

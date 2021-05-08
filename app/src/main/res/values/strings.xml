@@ -25,4 +25,10 @@
     <string name="profile_text">Profile</string>
     <string name="your_businesses">Your Businesses</string>
     <string name="empty_screen_text_txt">This place looks empty, create a business to get started</string>
+    <string name="please_provide_the_details_of_your_business">Please, provide the details of your business</string>
+    <string name="please_provide_the_updated_details_of_your_business">Please, provide the new details of your business</string>
+    <string name="business_description_hint">Business Description</string>
+    <string name="add_business_text">Add Business</string>
+    <string name="edit_business_text">Edit Business</string>
+    <string name="upload_image_text">Upload Image</string>
 </resources>

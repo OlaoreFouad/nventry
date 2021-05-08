@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".ui.fragments.EditBusinessFragment">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/add_business_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/primary_color_dark"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="Edit Business"
+            app:titleTextColor="@color/colorWhite" />
+
+        <TextView
+            android:id="@+id/add_business_intro_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:text="@string/please_provide_the_updated_details_of_your_business"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/default_font_size"
+            app:layout_constraintTop_toBottomOf="@id/add_business_toolbar" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/business_name_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintTop_toBottomOf="@id/add_business_intro_text">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/business_name_text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/business_description_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintTop_toBottomOf="@id/business_name_edit_text">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/business_description_hint"
+                android:inputType="textMultiLine"
+                android:lines="4" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <dev.olaore.nventry.ui.views.UploadImageContainer
+            android:id="@+id/upload_image_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/business_description_edit_text" />
+
+        <Button
+            android:id="@+id/edit_business_button"
+            style="@style/PrimaryButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:text="@string/edit_business_text"
+            app:layout_constraintTop_toBottomOf="@id/upload_image_container" />
+
+        <ProgressBar
+            android:id="@+id/is_loading_progress"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:elevation="4dp"
+            android:indeterminate="true"
+            android:theme="@style/Theme.Nventry.WhiteAccent"
+            app:layout_constraintBottom_toBottomOf="@id/edit_business_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias=".2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/edit_business_button" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
