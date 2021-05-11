@@ -7,10 +7,18 @@
     <fragment
         android:id="@+id/businesses"
         android:name="dev.olaore.nventry.ui.fragments.BusinessesFragment"
-        android:label="BusinessesFragment" />
+        android:label="BusinessesFragment" >
+        <action
+            android:id="@+id/action_businesses_to_addBusinessFragment"
+            app:destination="@id/addBusinessFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profile"
         android:name="dev.olaore.nventry.ui.fragments.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/addBusinessFragment"
+        android:name="dev.olaore.nventry.ui.fragments.AddBusinessFragment"
+        android:label="AddBusinessFragment" />
 </navigation>

@@ -48,3 +48,9 @@ fun showSnackbar(view: View, text: String) {
     textView.maxLines = 4
     snackbar.show()
 }
+
+object Utils {
+
+    val REQUEST_FILE_CODE = 1
+
+}
