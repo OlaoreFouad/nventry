@@ -51,7 +51,7 @@ class BusinessesAdapter(
         fun bind(business: Business) {
 
             businessName.text = business.name
-            Glide.with(ctx).load(business.logoUrl).into(businessImage)
+            Glide.with(ctx).load(business.logoUrl).placeholder(R.drawable.no_image).into(businessImage)
 
         }
 
