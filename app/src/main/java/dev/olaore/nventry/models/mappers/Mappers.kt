@@ -1,7 +1,9 @@
 package dev.olaore.nventry.models.mappers
 
 import dev.olaore.nventry.models.database.DatabaseUser
+import dev.olaore.nventry.models.domain.Business
 import dev.olaore.nventry.models.domain.TemporaryUser
+import dev.olaore.nventry.models.network.NetworkBusiness
 import dev.olaore.nventry.models.network.NetworkUser
 
 fun TemporaryUser.asNetworkUser(): NetworkUser {
@@ -16,4 +18,8 @@ fun NetworkUser.asDatabaseUser(id: String, password: String): DatabaseUser {
     return DatabaseUser(
         id, this.username, password, this.email, this.createdOn, this.businesses.joinToString("---")
     )
+}
+
+fun NetworkBusiness.asDomainModel(): Business {
+    return Business(this)
 }

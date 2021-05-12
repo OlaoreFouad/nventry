@@ -7,7 +7,8 @@ data class NetworkBusiness(
     var description: String = "",
     var logoUrl: String = "",
     var partnerIds: List<String> = listOf(),
-    var businessSetting: NetworkBusinessSetting? = NetworkBusinessSetting()
+    var businessSetting: NetworkBusinessSetting? = NetworkBusinessSetting(),
+    var createdOn: Long = 0L
 )
 
 data class NetworkBusinessSetting(

@@ -2,6 +2,7 @@ package dev.olaore.nventry.repositories
 
 import android.net.Uri
 import com.google.android.gms.tasks.Task
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import dev.olaore.nventry.database.NventryDatabase
@@ -20,5 +21,11 @@ class BusinessRepository(
     suspend fun createBusiness(networkBusiness: NetworkBusiness): Task<Void> {
         return Network.saveBusiness(networkBusiness, networkBusiness.businessId)
     }
+
+    suspend fun getAllBusinesses(userId: String): Task<QuerySnapshot> {
+        return Network.getAllBusinesses(userId)
+    }
+
+
 
 }

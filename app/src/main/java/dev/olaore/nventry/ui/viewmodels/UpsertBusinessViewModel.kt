@@ -33,7 +33,12 @@ class UpsertBusinessViewModel(
     ) {
 
         val newBusiness = NetworkBusiness(
-            Network.getRandomId(), Auth.auth.currentUser!!.uid, businessName, businessDescription, logoUrl
+            Network.getRandomId(),
+            Auth.auth.currentUser!!.uid,
+            businessName,
+            businessDescription,
+            logoUrl,
+            createdOn = System.currentTimeMillis()
         )
 
         businessCreated.postValue(Resource.loading())

@@ -32,6 +32,12 @@ object Network {
         return db.collection("businesses").document(id).set(business)
     }
 
+    fun getAllBusinesses(userId: String): Task<QuerySnapshot> {
+        return db.collection("businesses").whereEqualTo(
+            "userId", userId
+        ).get()
+    }
+
     fun getBusiness(id: String): Task<QuerySnapshot> {
         return db.collection("businesses").whereEqualTo("businessId", id).get()
     }

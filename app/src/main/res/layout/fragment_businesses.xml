@@ -5,6 +5,22 @@
 
     <data>
 
+        <variable
+            name="isLoading"
+            type="Boolean" />
+
+        <variable
+            name="isEmpty"
+            type="Boolean" />
+
+        <variable
+            name="isError"
+            type="Boolean" />
+
+        <import
+            alias="V"
+            type="android.view.View" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,10 +39,24 @@
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ProgressBar
+            android:id="@+id/is_loading_progress"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:elevation="4dp"
+            android:indeterminate="true"
+            android:theme="@style/Theme.Nventry.PrimaryAccent"
+            android:visibility="@{ isLoading ? V.VISIBLE : V.GONE }"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/all_businesses"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/empty_screen_container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:id="@+id/empty_screen_container"
+            android:visibility="@{ isEmpty || isError ? V.VISIBLE : V.GONE }"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/all_businesses">
 
@@ -58,7 +88,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="20dp"
-            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/all_businesses"
             tools:listitem="@layout/item_business" />

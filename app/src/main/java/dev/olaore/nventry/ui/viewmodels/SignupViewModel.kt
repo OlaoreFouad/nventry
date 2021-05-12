@@ -73,7 +73,6 @@ class SignupViewModel (
                     user.email, user.password
                 ).addOnCompleteListener {
                     if (it.isSuccessful) {
-                        // TODO: delete all businesses and users and save the user entry by uid as it should be!
                         saveUserDetails(user)
                     } else {
                         createdAccount.postValue(Resource.error(it.exception?.message!!))

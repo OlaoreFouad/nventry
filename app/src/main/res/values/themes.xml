@@ -28,6 +28,10 @@
         <item name="colorAccent">@color/colorWhite</item>
     </style>
 
+    <style name="Theme.Nventry.PrimaryAccent">
+        <item name="colorAccent">@color/primary_color_dark</item>
+    </style>
+
     <style name="Indicator">
         <item name="android:layout_height">@dimen/indicator_size</item>
         <item name="android:layout_width">@dimen/indicator_size</item>
