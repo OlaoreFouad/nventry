@@ -90,7 +90,7 @@ class SignupViewModel (
     }
 
     private fun saveUserDetails(temporaryUser: TemporaryUser) {
-        val userId = Network.getRandomId()
+        val userId = Auth.auth.currentUser!!.uid
         viewModelScope.launch {
             userRepository.addUser(temporaryUser, userId).addOnCompleteListener {
                 if (it.isSuccessful) {
