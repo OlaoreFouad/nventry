@@ -82,12 +82,15 @@ class BusinessesFragment : Fragment(), BusinessInteraction {
     }
 
     override fun onBusinessClicked(businessId: String) {
+        Log.d("BusinessesFragment", "Business Clicked: $businessId")
     }
 
     override fun onDeleteBusiness(businessId: String) {
+        Log.d("BusinessesFragment", "On Delete Business: $businessId")
     }
 
     override fun onEditBusiness(businessId: String) {
+        Log.d("BusinessesFragment", "On Edit Business: $businessId")
     }
 
 }

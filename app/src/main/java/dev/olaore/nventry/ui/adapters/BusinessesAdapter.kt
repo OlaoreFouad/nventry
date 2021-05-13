@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -47,11 +48,35 @@ class BusinessesAdapter(
 
         private val businessName: TextView = view.findViewById(R.id.business_name)
         private val businessImage: ImageView = view.findViewById(R.id.business_image)
+        private val more: ImageView = view.findViewById(R.id.more_image)
 
         fun bind(business: Business) {
 
+            view.setOnClickListener {
+                businessInteraction.onBusinessClicked(business.businessId)
+            }
+
             businessName.text = business.name
             Glide.with(ctx).load(business.logoUrl).placeholder(R.drawable.no_image).into(businessImage)
+
+            more.setOnClickListener {
+                val popupMenu = PopupMenu(ctx, more)
+                popupMenu.menuInflater.inflate(R.menu.item_business_menu, popupMenu.menu)
+                popupMenu.setOnMenuItemClickListener {
+                    when (it.itemId) {
+                        R.id.business_edit_menu_item -> {
+                            businessInteraction.onEditBusiness(business.businessId)
+                            true
+                        }
+                        R.id.business_delete_menu_item -> {
+                            businessInteraction.onDeleteBusiness(business.businessId)
+                            true
+                        }
+                        else -> false
+                    }
+                }
+                popupMenu.show()
+            }
 
         }
 

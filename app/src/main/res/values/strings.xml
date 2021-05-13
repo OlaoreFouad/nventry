@@ -31,4 +31,6 @@
     <string name="add_business_text">Add Business</string>
     <string name="edit_business_text">Edit Business</string>
     <string name="upload_image_text">Upload Image</string>
+    <string name="edit_text">Edit</string>
+    <string name="delete_text">Delete</string>
 </resources>
