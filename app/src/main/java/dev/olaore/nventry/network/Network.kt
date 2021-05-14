@@ -5,6 +5,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import dev.olaore.nventry.models.domain.Business
 import dev.olaore.nventry.models.network.NetworkBusiness
 import dev.olaore.nventry.models.network.NetworkUser
 
@@ -30,6 +31,13 @@ object Network {
     fun saveBusiness(business: NetworkBusiness, id: String): Task<Void> {
         business.businessId = id
         return db.collection("businesses").document(id).set(business)
+    }
+
+    fun updateBusiness(business: Business): Task<Void> {
+        val businessRef = db.collection("businesses").document(business.businessId)
+        return businessRef.update(mapOf(
+            "name" to business.name, "description" to business.description, "logoUrl" to business.logoUrl
+        ))
     }
 
     fun getAllBusinesses(userId: String): Task<QuerySnapshot> {

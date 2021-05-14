@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.bumptech.glide.Glide
 import dev.olaore.nventry.R
 
 class UploadImageContainer @JvmOverloads
@@ -78,6 +79,11 @@ constructor(
             MediaStore.Images.Media.getBitmap(ctx.contentResolver, this.currentImageUri)
         )
 
+        this.viewMode = true
+    }
+
+    fun setImage(url: String, edit: Boolean) {
+        Glide.with(this).load(url).into(uploadedImageView)
         this.viewMode = true
     }
 

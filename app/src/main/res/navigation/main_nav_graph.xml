@@ -11,6 +11,9 @@
         <action
             android:id="@+id/action_businesses_to_addBusinessFragment"
             app:destination="@id/addBusinessFragment" />
+        <action
+            android:id="@+id/action_businesses_to_editBusinessFragment"
+            app:destination="@id/editBusinessFragment" />
     </fragment>
     <fragment
         android:id="@+id/profile"
@@ -21,4 +24,12 @@
         android:id="@+id/addBusinessFragment"
         android:name="dev.olaore.nventry.ui.fragments.AddBusinessFragment"
         android:label="AddBusinessFragment" />
+    <fragment
+        android:id="@+id/editBusinessFragment"
+        android:name="dev.olaore.nventry.ui.fragments.EditBusinessFragment"
+        android:label="EditBusinessFragment" >
+        <argument
+            android:name="business"
+            app:argType="dev.olaore.nventry.models.domain.Business" />
+    </fragment>
 </navigation>

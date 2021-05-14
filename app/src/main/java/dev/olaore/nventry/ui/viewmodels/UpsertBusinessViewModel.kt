@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dev.olaore.nventry.models.domain.Business
 import dev.olaore.nventry.models.domain.UploadProcess
 import dev.olaore.nventry.models.network.NetworkBusiness
 import dev.olaore.nventry.network.Auth
@@ -23,6 +24,7 @@ class UpsertBusinessViewModel(
 
     var fileUploadComplete = MutableLiveData<Resource<UploadProcess>>()
     var businessCreated = MutableLiveData<Resource<Boolean>>()
+    var businessUpdated = MutableLiveData<Resource<Boolean>>()
 
     init {
 
@@ -55,6 +57,34 @@ class UpsertBusinessViewModel(
             } catch (ex: Exception) {
                 businessCreated.postValue(Resource.error(ex.message!!))
             }
+        }
+
+    }
+
+    fun updateBusiness(
+        business: Business
+    ) {
+
+        businessUpdated.postValue(Resource.loading())
+
+        viewModelScope.launch(Dispatchers.IO) {
+
+            try {
+
+                businessRepository.updateBusiness(business).addOnCompleteListener {
+                    if (it.isSuccessful) {
+
+                        businessUpdated.postValue(Resource.success(true))
+
+                    } else {
+                        businessUpdated.postValue(Resource.error(it.exception?.message!!))
+                    }
+                }
+
+            } catch (ex: Exception) {
+                businessUpdated.postValue(Resource.error(ex.message!!))
+            }
+
         }
 
     }

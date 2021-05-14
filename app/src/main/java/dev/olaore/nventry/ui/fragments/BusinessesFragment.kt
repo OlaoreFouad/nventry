@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dev.olaore.nventry.R
 import dev.olaore.nventry.databinding.FragmentBusinessesBinding
@@ -41,7 +42,7 @@ class BusinessesFragment : Fragment(), BusinessInteraction {
 
         binding.addBusinessButton.setOnClickListener {
             it.findNavController().navigate(
-                R.id.action_businesses_to_addBusinessFragment
+                BusinessesFragmentDirections.actionBusinessesToAddBusinessFragment()
             )
         }
 
@@ -89,8 +90,10 @@ class BusinessesFragment : Fragment(), BusinessInteraction {
         Log.d("BusinessesFragment", "On Delete Business: $businessId")
     }
 
-    override fun onEditBusiness(businessId: String) {
-        Log.d("BusinessesFragment", "On Edit Business: $businessId")
+    override fun onEditBusiness(business: Business) {
+        findNavController().navigate(
+            BusinessesFragmentDirections.actionBusinessesToEditBusinessFragment(business)
+        )
     }
 
 }

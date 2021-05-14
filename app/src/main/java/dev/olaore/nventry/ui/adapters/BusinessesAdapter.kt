@@ -65,7 +65,7 @@ class BusinessesAdapter(
                 popupMenu.setOnMenuItemClickListener {
                     when (it.itemId) {
                         R.id.business_edit_menu_item -> {
-                            businessInteraction.onEditBusiness(business.businessId)
+                            businessInteraction.onEditBusiness(business)
                             true
                         }
                         R.id.business_delete_menu_item -> {
