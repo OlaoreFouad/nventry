@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
@@ -18,6 +19,7 @@ import dev.olaore.nventry.ui.adapters.BusinessesAdapter
 import dev.olaore.nventry.ui.listeners.BusinessInteraction
 import dev.olaore.nventry.ui.viewmodels.BusinessesViewModel
 import dev.olaore.nventry.utils.obtainViewModel
+import dev.olaore.nventry.utils.showSnackbar
 
 class BusinessesFragment : Fragment(), BusinessInteraction {
 
@@ -74,6 +76,24 @@ class BusinessesFragment : Fragment(), BusinessInteraction {
 
         })
 
+        viewModel.onBusinessDeleted.observe(viewLifecycleOwner, Observer {
+
+            binding.isLoading = it.status == Status.LOADING
+
+            when (it.status) {
+
+                Status.ERROR -> {
+                    showSnackbar(binding.businessesList, "Error occurred: " + it.message)
+                }
+                Status.SUCCESS -> {
+                    showSnackbar(binding.businessesList, "Business deleted successfully")
+                    viewModel.refresh()
+                }
+
+            }
+
+        })
+
         return binding.root
     }
 
@@ -87,7 +107,7 @@ class BusinessesFragment : Fragment(), BusinessInteraction {
     }
 
     override fun onDeleteBusiness(businessId: String) {
-        Log.d("BusinessesFragment", "On Delete Business: $businessId")
+        viewModel.deleteBusiness(businessId)
     }
 
     override fun onEditBusiness(business: Business) {

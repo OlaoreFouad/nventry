@@ -31,4 +31,8 @@ class BusinessRepository(
         return Network.updateBusiness(business)
     }
 
+    suspend fun deleteBusiness(businessId: String): Task<Void> {
+        return Network.deleteBusiness(businessId)
+    }
+
 }

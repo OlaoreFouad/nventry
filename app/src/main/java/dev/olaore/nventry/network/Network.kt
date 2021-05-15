@@ -50,6 +50,10 @@ object Network {
         return db.collection("businesses").whereEqualTo("businessId", id).get()
     }
 
+    fun deleteBusiness(businessId: String): Task<Void> {
+        return db.collection("businesses").document(businessId).delete()
+    }
+
 }
 
 class Resource<T>(
