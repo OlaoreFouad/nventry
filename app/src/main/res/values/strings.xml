@@ -34,4 +34,8 @@
     <string name="edit_text">Edit</string>
     <string name="delete_text">Delete</string>
     <string name="save_text">Save</string>
+    <string name="products_text">Products</string>
+    <string name="share_text">Share</string>
+    <string name="partners_text">Partners</string>
+    <string name="settings_text">Settings</string>
 </resources>

@@ -51,6 +51,7 @@ fun showSnackbar(view: View, text: String) {
 
 object Utils {
 
-    val REQUEST_FILE_CODE = 1
+    const val BUSINESS_ID: String = "BUSINESS_ID"
+    const val REQUEST_FILE_CODE = 1
 
 }

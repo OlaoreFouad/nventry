@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/business_nav_graph"
+    app:startDestination="@id/products">
+
+    <fragment
+        android:id="@+id/products"
+        android:name="dev.olaore.nventry.ui.fragments.ProductsFragment"
+        android:label="fragment_products"
+        tools:layout="@layout/fragment_products" />
+    <fragment
+        android:id="@+id/partners"
+        android:name="dev.olaore.nventry.ui.fragments.PartnersFragment"
+        android:label="fragment_partners"
+        tools:layout="@layout/fragment_partners" />
+    <fragment
+        android:id="@+id/share"
+        android:name="dev.olaore.nventry.ui.fragments.ShareFragment"
+        android:label="fragment_share"
+        tools:layout="@layout/fragment_share" />
+    <fragment
+        android:id="@+id/settings"
+        android:name="dev.olaore.nventry.ui.fragments.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+</navigation>

@@ -1,5 +1,6 @@
 package dev.olaore.nventry.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,9 +16,11 @@ import dev.olaore.nventry.R
 import dev.olaore.nventry.databinding.FragmentBusinessesBinding
 import dev.olaore.nventry.models.domain.Business
 import dev.olaore.nventry.network.Status
+import dev.olaore.nventry.ui.BusinessActivity
 import dev.olaore.nventry.ui.adapters.BusinessesAdapter
 import dev.olaore.nventry.ui.listeners.BusinessInteraction
 import dev.olaore.nventry.ui.viewmodels.BusinessesViewModel
+import dev.olaore.nventry.utils.Utils
 import dev.olaore.nventry.utils.obtainViewModel
 import dev.olaore.nventry.utils.showSnackbar
 
@@ -103,7 +106,9 @@ class BusinessesFragment : Fragment(), BusinessInteraction {
     }
 
     override fun onBusinessClicked(businessId: String) {
-        Log.d("BusinessesFragment", "Business Clicked: $businessId")
+        val intent = Intent(requireContext(), BusinessActivity::class.java)
+        intent.putExtra(Utils.BUSINESS_ID, businessId)
+        startActivity(intent)
     }
 
     override fun onDeleteBusiness(businessId: String) {

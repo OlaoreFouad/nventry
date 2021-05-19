@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/products"
+        android:icon="@drawable/ic_products"
+        android:title="@string/products_text" />
+
+    <item
+        android:id="@+id/share"
+        android:icon="@drawable/ic_share"
+        android:title="@string/share_text" />
+
+    <item
+        android:id="@+id/partners"
+        android:icon="@drawable/ic_partners"
+        android:title="@string/partners_text" />
+
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/settings_text" />
+
+</menu>
