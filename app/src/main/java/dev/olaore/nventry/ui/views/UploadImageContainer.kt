@@ -111,7 +111,7 @@ constructor(
 
     }
 
-    fun toDP(value: Int): Float {
+    private fun toDP(value: Int): Float {
         return TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP, value.toFloat(), ctx.resources.displayMetrics
         )

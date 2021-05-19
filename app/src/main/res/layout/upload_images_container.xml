@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/upload_image_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/upload_image_text"
+        android:textSize="@dimen/medium_font_size"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/upload_image_action"
+        app:layout_constraintEnd_toStartOf="@id/upload_image_action"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/upload_image_action" />
+
+    <ImageView
+        android:id="@+id/upload_image_action"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/ic_upload"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/view_image_action"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/ic_view"
+        app:layout_constraintEnd_toStartOf="@id/upload_image_action"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/upload_image_text"
+        android:layout_marginTop="15dp"
+        tools:listitem="@layout/item_image"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_height="wrap_content"/>
+
+</merge>
