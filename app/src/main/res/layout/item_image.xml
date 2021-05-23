@@ -7,7 +7,7 @@
 
     <ImageView
         android:layout_width="150dp"
-        android:id="@+id/image"
+        android:id="@+id/actual_image"
         android:src="@drawable/ic_launcher_background"
         android:scaleType="centerCrop"
         app:layout_constraintTop_toTopOf="parent"
@@ -20,6 +20,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginEnd="4dp"
         android:layout_marginTop="4dp"
+        android:id="@+id/delete_image_action"
         android:src="@drawable/ic_cancel"
         android:layout_height="36dp"/>
 

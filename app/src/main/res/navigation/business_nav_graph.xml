@@ -9,7 +9,11 @@
         android:id="@+id/products"
         android:name="dev.olaore.nventry.ui.fragments.ProductsFragment"
         android:label="fragment_products"
-        tools:layout="@layout/fragment_products" />
+        tools:layout="@layout/fragment_products" >
+        <action
+            android:id="@+id/action_products_to_upsertProductFragment"
+            app:destination="@id/upsertProductFragment" />
+    </fragment>
     <fragment
         android:id="@+id/partners"
         android:name="dev.olaore.nventry.ui.fragments.PartnersFragment"
@@ -25,4 +29,8 @@
         android:name="dev.olaore.nventry.ui.fragments.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/upsertProductFragment"
+        android:name="dev.olaore.nventry.ui.fragments.UpsertProductFragment"
+        android:label="UpsertProductFragment" />
 </navigation>

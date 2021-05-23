@@ -38,6 +38,7 @@
         android:layout_width="match_parent"
         app:layout_constraintTop_toBottomOf="@id/upload_image_text"
         android:layout_marginTop="15dp"
+        android:id="@+id/images_list"
         tools:listitem="@layout/item_image"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
