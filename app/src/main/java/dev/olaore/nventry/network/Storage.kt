@@ -15,9 +15,15 @@ object Storage {
     }
     private val storageReference = storage.reference
     private val businessImagesReference = storageReference.child("businessImages")
+    private val productImagesReference = storageReference.child("productImages")
 
     fun uploadBusinessImage(businessName: String, fileId: String, fileUri: Uri): Pair<UploadTask, StorageReference> {
         val reference = businessImagesReference.child("$businessName-$fileId")
+        return reference.putFile(fileUri) to reference
+    }
+
+    fun uploadProductImage(productName: String, fileId: String, fileUri: Uri): Pair<UploadTask, StorageReference> {
+        val reference = productImagesReference.child("$productName-$fileId")
         return reference.putFile(fileUri) to reference
     }
 

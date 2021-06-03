@@ -8,6 +8,7 @@ import com.google.firebase.ktx.Firebase
 import dev.olaore.nventry.models.domain.Business
 import dev.olaore.nventry.models.network.NetworkBusiness
 import dev.olaore.nventry.models.network.NetworkUser
+import dev.olaore.nventry.models.network.Product
 
 object Network {
 
@@ -31,6 +32,29 @@ object Network {
     fun saveBusiness(business: NetworkBusiness, id: String): Task<Void> {
         business.businessId = id
         return db.collection("businesses").document(id).set(business)
+    }
+
+    fun createProduct(product: Product, id: String): Task<Void> {
+        product.id = id
+        return db.collection("products").document(id).set(product);
+    }
+
+    fun getAllProducts(businessId: String): Task<QuerySnapshot> {
+        return db.collection("products").whereEqualTo(
+            "businessId", businessId
+        ).get()
+    }
+
+    fun updateProduct(product: Product): Task<Void> {
+        val productRef = db.collection("products").document(product.id)
+        return productRef.update(mapOf(
+            "category" to product.category,
+            "description" to product.description,
+            "sharingText" to product.sharingText,
+            "price" to product.price,
+            "name" to product.name,
+            "imageUrls" to product.imageUrls
+        ))
     }
 
     fun updateBusiness(business: Business): Task<Void> {

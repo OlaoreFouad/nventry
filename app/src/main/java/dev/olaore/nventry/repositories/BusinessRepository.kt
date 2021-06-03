@@ -8,6 +8,7 @@ import com.google.firebase.storage.UploadTask
 import dev.olaore.nventry.database.NventryDatabase
 import dev.olaore.nventry.models.domain.Business
 import dev.olaore.nventry.models.network.NetworkBusiness
+import dev.olaore.nventry.models.network.Product
 import dev.olaore.nventry.network.Network
 import dev.olaore.nventry.network.Storage
 
@@ -17,6 +18,10 @@ class BusinessRepository(
 
     suspend fun uploadBusinessImage(businessName: String, fileUri: Uri, fileId: String): Pair<UploadTask, StorageReference> {
         return Storage.uploadBusinessImage(businessName, fileId, fileUri)
+    }
+
+    suspend fun uploadProductImage(productName: String, fileUri: Uri, fileId: String): Pair<UploadTask, StorageReference> {
+        return Storage.uploadProductImage(productName, fileId, fileUri)
     }
 
     suspend fun createBusiness(networkBusiness: NetworkBusiness): Task<Void> {
@@ -33,6 +38,14 @@ class BusinessRepository(
 
     suspend fun deleteBusiness(businessId: String): Task<Void> {
         return Network.deleteBusiness(businessId)
+    }
+
+    suspend fun createProduct(product: Product, id: String): Task<Void> {
+        return Network.createProduct(product, id)
+    }
+
+    suspend fun updateProduct(product: Product): Task<Void> {
+        return Network.updateProduct(product)
     }
 
 }

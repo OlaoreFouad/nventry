@@ -35,7 +35,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/product_name_edit_text"
+                android:id="@+id/product_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -48,14 +48,44 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/product_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@id/product_name">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:inputType="numberDecimal"
+                    android:layout_height="match_parent"
+                    android:hint="@string/product_price" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/product_quantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintTop_toBottomOf="@id/product_price">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:inputType="numberDecimal"
+                    android:layout_height="match_parent"
+                    android:hint="@string/product_quantity" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
             <dev.olaore.nventry.ui.views.UploadImagesContainer
                 android:layout_width="match_parent"
                 android:id="@+id/upload_images_container"
-                app:layout_constraintTop_toBottomOf="@id/product_name_edit_text"
+                app:layout_constraintTop_toBottomOf="@id/product_quantity"
                 android:layout_height="wrap_content" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/product_description_edit_text"
+                android:id="@+id/product_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
@@ -72,12 +102,12 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/product_sharing_edit_text"
+                android:id="@+id/product_sharing_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
                 android:layout_marginTop="20dp"
-                app:layout_constraintTop_toBottomOf="@id/product_description_edit_text">
+                app:layout_constraintTop_toBottomOf="@id/product_description">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -95,7 +125,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="@string/add_product"
-                app:layout_constraintTop_toBottomOf="@id/product_sharing_edit_text" />
+                app:layout_constraintTop_toBottomOf="@id/product_sharing_text" />
 
             <ProgressBar
                 android:id="@+id/is_loading_progress"
