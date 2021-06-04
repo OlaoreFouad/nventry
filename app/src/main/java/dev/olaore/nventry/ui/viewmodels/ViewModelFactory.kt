@@ -20,6 +20,7 @@ class ViewModelFactory(
             UpsertBusinessViewModel::class.java -> UpsertBusinessViewModel(userRepository, businessRepository)
             UpsertProductViewModel::class.java -> UpsertProductViewModel(userRepository, businessRepository)
             BusinessViewModel::class.java -> BusinessViewModel(userRepository, businessRepository)
+            ProductsViewModel::class.java -> ProductsViewModel(userRepository, businessRepository)
             else -> throw IllegalArgumentException("Argument passed in must be of type ViewModel")
         } as T
     }

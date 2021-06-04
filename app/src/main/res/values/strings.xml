@@ -25,6 +25,7 @@
     <string name="profile_text">Profile</string>
     <string name="your_businesses">Your Businesses</string>
     <string name="empty_screen_text_txt">This place looks empty, create a business to get started</string>
+    <string name="empty_screen_text_txt_product">This place looks empty, create a product to get started</string>
     <string name="please_provide_the_details_of_your_business">Please, provide the details of your business</string>
     <string name="please_provide_the_updated_details_of_your_business">Please, provide the new details of your business</string>
     <string name="business_description_hint">Business Description</string>
@@ -45,4 +46,5 @@
     <string name="product_sharing_text">Product Sharing Text</string>
     <string name="product_price">Product Price</string>
     <string name="product_quantity">Product Quantity</string>
+    <string name="product_price_text">AED %s</string>
 </resources>

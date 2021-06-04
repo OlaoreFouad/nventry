@@ -5,6 +5,20 @@
 
     <data>
 
+        <variable
+            name="isLoading"
+            type="Boolean" />
+
+        <variable
+            name="isError"
+            type="Boolean" />
+
+        <variable
+            name="isEmpty"
+            type="Boolean" />
+
+        <import type="android.view.View" alias="V"/>
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,7 +37,52 @@
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ProgressBar
+            android:id="@+id/is_loading_progress"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:elevation="4dp"
+            android:indeterminate="true"
+            android:theme="@style/Theme.Nventry.PrimaryAccent"
+            android:visibility="@{ isLoading ? V.VISIBLE : V.GONE }"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/your_products_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/empty_screen_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="@{ isEmpty || isError ? V.VISIBLE : V.GONE }"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/your_products_text">
+
+            <ImageView
+                android:id="@+id/empty_screen_image"
+                android:layout_width="300dp"
+                android:layout_height="200dp"
+                android:src="@drawable/empty_screen"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias=".4" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_screen_text_txt_product"
+                android:textAlignment="center"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/default_text_size"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/empty_screen_image" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/productsList"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="10dp"

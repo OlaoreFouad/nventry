@@ -40,6 +40,10 @@ class BusinessRepository(
         return Network.deleteBusiness(businessId)
     }
 
+    suspend fun getAllProducts(businessId: String): Task<QuerySnapshot> {
+        return Network.getAllProducts(businessId)
+    }
+
     suspend fun createProduct(product: Product, id: String): Task<Void> {
         return Network.createProduct(product, id)
     }
