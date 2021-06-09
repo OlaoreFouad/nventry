@@ -47,4 +47,6 @@
     <string name="product_price">Product Price</string>
     <string name="product_quantity">Product Quantity</string>
     <string name="product_price_text">AED %s</string>
+    <string name="edit_product_text">Edit Product</string>
+    <string name="share_product_text">Share Product</string>
 </resources>

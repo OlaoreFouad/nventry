@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import dev.olaore.nventry.R
@@ -64,7 +65,9 @@ class ProductsFragment : Fragment() {
                     if (binding.isEmpty == false) {
                         val products: List<Product> = it.data!!
                         productsAdapter = ProductsAdapter(requireContext(), products) { productId ->
-                            Log.d("ProductsFragment", "Product ID: $productId")
+                            findNavController().navigate(
+                                R.id.action_products_to_productFragment
+                            )
                         }
                         binding.productsList.apply {
                             layoutManager = GridLayoutManager(requireContext(), 2)

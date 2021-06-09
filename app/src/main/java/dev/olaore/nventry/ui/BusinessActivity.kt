@@ -41,6 +41,12 @@ class BusinessActivity : AppCompatActivity() {
 
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = (supportFragmentManager.findFragmentById(R.id.business_fragment_container)
+                as NavHostFragment).navController
+        return navController.navigateUp()
+    }
+
     private fun setupNavigation() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.business_fragment_container) as NavHostFragment
         NavigationUI.setupWithNavController(bottomNavigationView, navHostFragment.navController)

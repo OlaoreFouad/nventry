@@ -39,6 +39,13 @@
         <item name="android:layout_marginStart">@dimen/indicator_margin_size</item>
     </style>
 
+    <style name="ImageIndicator">
+        <item name="android:layout_height">@dimen/indicator_size_lg</item>
+        <item name="android:layout_width">@dimen/indicator_size_lg</item>
+        <item name="android:layout_marginEnd">@dimen/indicator_margin_size</item>
+        <item name="android:layout_marginStart">@dimen/indicator_margin_size</item>
+    </style>
+
     <style name="Indicator.Active">
         <item name="android:layout_width">@dimen/active_indicator_width</item>
     </style>
