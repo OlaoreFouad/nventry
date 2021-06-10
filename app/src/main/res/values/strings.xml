@@ -49,4 +49,10 @@
     <string name="product_price_text">AED %s</string>
     <string name="edit_product_text">Edit Product</string>
     <string name="share_product_text">Share Product</string>
+    <string name="_15">15</string>
+    <string name="description_text">Description</string>
+    <string name="lorem_10">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec molestie elementum tellus, sed tristique quam.</string>
+    <string name="sharing_text">Sharing Promo</string>
+    <string name="web_link_text">Web Link</string>
+    <string name="copy">Copy</string>
 </resources>
