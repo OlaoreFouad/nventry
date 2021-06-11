@@ -5,6 +5,16 @@
 
     <data>
 
+        <variable
+            name="isLoading"
+            type="Boolean" />
+
+        <variable
+            name="product"
+            type="dev.olaore.nventry.models.network.Product" />
+
+        <import type="android.view.View" alias="V"/>
+
     </data>
 
     <ScrollView
@@ -23,8 +33,21 @@
                 android:background="@color/primary_color_dark"
                 android:elevation="12dp"
                 app:layout_constraintTop_toTopOf="parent"
-                app:title="Product Name"
+                app:title="@{ product.name }"
                 app:titleTextColor="@color/colorWhite" />
+
+            <ProgressBar
+                android:id="@+id/is_loading_progress"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:elevation="4dp"
+                android:indeterminate="true"
+                android:theme="@style/Theme.Nventry.PrimaryAccent"
+                android:visibility="@{ isLoading ? V.VISIBLE : V.GONE }"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/product_card_1"
@@ -33,6 +56,7 @@
                 android:layout_margin="12dp"
                 android:background="@drawable/bg_card_white"
                 android:elevation="4dp"
+                android:visibility="@{ isLoading ? V.GONE : V.VISIBLE }"
                 android:padding="20dp"
                 app:layout_constraintTop_toBottomOf="@id/single_product_toolbar">
 
@@ -40,7 +64,6 @@
                     android:id="@+id/product_images_view_pager"
                     android:layout_width="match_parent"
                     android:layout_height="256dp"
-                    android:background="@color/primary_color_dark"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <LinearLayout
@@ -50,15 +73,6 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center_horizontal"
                     app:layout_constraintTop_toBottomOf="@id/product_images_view_pager">
-
-                    <View
-                        style="@style/ImageIndicator"
-                        android:background="@drawable/image_indicator" />
-
-                    <View
-                        style="@style/ImageIndicator"
-                        android:background="@drawable/image_indicator" />
-
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -67,6 +81,7 @@
                 android:id="@+id/product_card_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="@{ isLoading ? V.GONE : V.VISIBLE }"
                 android:layout_margin="12dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/bg_card_white"
@@ -78,11 +93,21 @@
                     android:id="@+id/product_name_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/product_name"
+                    android:text="@{ product.name }"
                     android:textColor="@color/colorBlack"
                     android:textSize="@dimen/medium_font_size"
                     android:textStyle="bold"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/product_price_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    displayPrice="@{ product.price }"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/default_font_size"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@id/product_name_text" />
 
                 <LinearLayout
                     android:id="@+id/product_price_controls"
@@ -90,7 +115,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
-                    app:layout_constraintTop_toBottomOf="@id/product_name_text">
+                    app:layout_constraintTop_toBottomOf="@id/product_price_text">
 
                     <ImageView
                         android:id="@+id/remove_product_quantity"
@@ -106,8 +131,8 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="20dp"
-                        android:text="@string/_15"
                         android:textColor="@color/colorBlack"
+                        displayQuantity="@{ product.quantity }"
                         android:textSize="@dimen/medium_font_size" />
 
                     <ImageView
@@ -132,6 +157,7 @@
 
             <LinearLayout
                 android:id="@+id/product_card_3"
+                android:visibility="@{ isLoading ? V.GONE : V.VISIBLE }"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"
@@ -155,8 +181,8 @@
                 <TextView
                     android:id="@+id/description_content"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/lorem_10" />
+                    android:text="@{ product.description }"
+                    android:layout_height="wrap_content" />
 
                 <TextView
                     android:id="@+id/copy_description"
@@ -174,6 +200,7 @@
             <LinearLayout
                 android:id="@+id/product_card_4"
                 android:layout_width="match_parent"
+                android:visibility="@{ isLoading ? V.GONE : V.VISIBLE }"
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"
                 android:layout_marginTop="20dp"
@@ -197,7 +224,8 @@
                     android:id="@+id/sharing_promo_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/lorem_10" />
+                    android:text="@{ product.sharingText }"
+                     />
 
                 <TextView
                     android:id="@+id/copy_sharing_promo"
@@ -218,6 +246,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"
                 android:layout_marginTop="20dp"
+                android:visibility="@{ isLoading ? V.GONE : V.VISIBLE }"
                 android:background="@drawable/bg_card_white"
                 android:elevation="4dp"
                 android:layout_marginBottom="20dp"
@@ -239,7 +268,8 @@
                     android:id="@+id/web_link_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/lorem_10" />
+                    android:text="@{ product.webLink }"
+                     />
 
                 <TextView
                     android:id="@+id/copy_web_link"

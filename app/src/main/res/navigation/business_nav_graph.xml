@@ -39,5 +39,9 @@
     <fragment
         android:id="@+id/productFragment"
         android:name="dev.olaore.nventry.ui.fragments.ProductFragment"
-        android:label="ProductFragment" />
+        android:label="ProductFragment" >
+        <argument
+            android:name="productId"
+            app:argType="string" />
+    </fragment>
 </navigation>

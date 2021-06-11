@@ -1,5 +1,6 @@
 package dev.olaore.nventry.ui.adapters
 
+import android.annotation.SuppressLint
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.google.android.material.textfield.TextInputLayout
@@ -16,6 +17,18 @@ fun setIndicatorStyle(view: TextView, state: Boolean) {
     }
     view.layoutParams = layoutParams
 
+}
+
+@SuppressLint("SetTextI18n")
+@BindingAdapter("displayPrice")
+fun setPrice(view: TextView, price: Float) {
+    view.text = "AED $price"
+}
+
+@SuppressLint("SetTextI18n")
+@BindingAdapter("displayQuantity")
+fun setQuantity(view: TextView, qty: Int) {
+    view.text = "$qty"
 }
 
 @BindingAdapter("errorText")

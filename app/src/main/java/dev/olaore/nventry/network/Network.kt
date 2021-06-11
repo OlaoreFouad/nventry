@@ -53,7 +53,19 @@ object Network {
             "sharingText" to product.sharingText,
             "price" to product.price,
             "name" to product.name,
+            "quantity" to product.quantity,
             "imageUrls" to product.imageUrls
+        ))
+    }
+
+    fun getProduct(id: String): Task<QuerySnapshot> {
+        return db.collection("products").whereEqualTo("id", id).get()
+    }
+
+    fun updateProductQuantity(productId: String, newQuantity: Int): Task<Void> {
+        val productRef = db.collection("products").document(productId)
+        return productRef.update(mapOf(
+            "quantity" to newQuantity
         ))
     }
 

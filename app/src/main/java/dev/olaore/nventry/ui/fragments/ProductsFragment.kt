@@ -66,7 +66,7 @@ class ProductsFragment : Fragment() {
                         val products: List<Product> = it.data!!
                         productsAdapter = ProductsAdapter(requireContext(), products) { productId ->
                             findNavController().navigate(
-                                R.id.action_products_to_productFragment
+                                ProductsFragmentDirections.actionProductsToProductFragment(productId)
                             )
                         }
                         binding.productsList.apply {

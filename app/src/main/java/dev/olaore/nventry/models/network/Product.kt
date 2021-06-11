@@ -10,5 +10,6 @@ data class Product(
     var category: String = "",
     var quantity: Int = 0,
     var imageUrls: List<String> = listOf(),
-    val createdOn: Long = 0L
+    val createdOn: Long = 0L,
+    val webLink: String = ""
 )
