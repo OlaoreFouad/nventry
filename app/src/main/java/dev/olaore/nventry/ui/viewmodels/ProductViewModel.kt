@@ -16,6 +16,7 @@ class ProductViewModel(
 ) : ViewModel() {
 
     var product = MutableLiveData<Resource<Product>>()
+    var productUpdated = MutableLiveData<Resource<Boolean>>()
     var productId: String = ""
 
     fun getProduct() {
@@ -35,6 +36,26 @@ class ProductViewModel(
                 }
             } catch (ex: Exception) {
                 product.postValue(Resource.error("Error occurred: ${ ex.message }"))
+            }
+        }
+
+    }
+
+    fun updateQuantity(quantity: Int) {
+
+        this.productUpdated.postValue(Resource.loading())
+
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                businessRepository.updateProductQuantity(productId, quantity).addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        productUpdated.postValue(Resource.success(true))
+                    } else {
+                        productUpdated.postValue(Resource.error(it.exception?.message!!))
+                    }
+                }
+            } catch (ex: Exception) {
+                productUpdated.postValue(Resource.error(ex.message!!))
             }
         }
 

@@ -52,6 +52,12 @@ class ProductFragment : Fragment() {
             this.businessId = businessViewModel.businessId
         }
         viewModel = obtainViewModel(ProductViewModel::class.java)
+
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
+        binding.quantity = 0
+        binding.isUpdatingQuantity = false
+
         val args: ProductFragmentArgs by navArgs()
         viewModel.productId = args.productId
         viewModel.product.observe(viewLifecycleOwner, Observer { product ->
@@ -63,10 +69,27 @@ class ProductFragment : Fragment() {
                 Status.SUCCESS -> {
                     this.product = product.data!!
                     binding.product = product.data
+                    binding.quantity = this.product.quantity
                     setupViewPager()
                 }
             }
         })
+        viewModel.productUpdated.observe(viewLifecycleOwner, Observer {
+            binding.isUpdatingQuantity = it.status == Status.LOADING
+            when (it.status) {
+                Status.ERROR -> {
+                    showSnackbar(binding.root, "Error occurred: ${ it.message }")
+                }
+                Status.SUCCESS -> {
+                    this.product.quantity = binding.quantity!!
+                    showSnackbar(binding.root, "Quantity updated successfully!")
+                }
+            }
+        })
+
+        binding.addProductQuantity.setOnClickListener { this.increaseQuantity() }
+        binding.removeProductQuantity.setOnClickListener { this.decreaseQuantity() }
+        binding.savePriceQuantity.setOnClickListener { this.updateQuantity() }
 
         return binding.root
     }
@@ -152,6 +175,20 @@ class ProductFragment : Fragment() {
         imageBindings.forEach {
             it.current = false
         }
+    }
+
+    private fun increaseQuantity() {
+        binding.quantity = binding.quantity!!.plus(1)
+    }
+
+    private fun decreaseQuantity() {
+        if (binding.quantity != 0) {
+            binding.quantity = binding.quantity!!.minus(1)
+        }
+    }
+
+    private fun updateQuantity() {
+        viewModel.updateQuantity(binding.quantity!!)
     }
 
 }

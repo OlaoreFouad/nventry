@@ -10,8 +10,20 @@
             type="Boolean" />
 
         <variable
+            name="quantity"
+            type="Integer" />
+
+        <variable
+            name="isUpdatingQuantity"
+            type="Boolean" />
+
+        <variable
             name="product"
             type="dev.olaore.nventry.models.network.Product" />
+
+        <variable
+            name="viewModel"
+            type="dev.olaore.nventry.ui.viewmodels.ProductViewModel" />
 
         <import type="android.view.View" alias="V"/>
 
@@ -132,7 +144,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="20dp"
                         android:textColor="@color/colorBlack"
-                        displayQuantity="@{ product.quantity }"
+                        android:text='@={ "" + quantity }'
                         android:textSize="@dimen/medium_font_size" />
 
                     <ImageView
@@ -150,6 +162,19 @@
                     android:layout_height="48dp"
                     android:layout_marginBottom="10dp"
                     android:src="@drawable/ic_check_green"
+                    android:visibility="@{ (quantity == product.quantity) ? V.GONE : V.VISIBLE }"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <ProgressBar
+                    android:id="@+id/is_loading_quantity_update"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:elevation="4dp"
+                    android:indeterminate="true"
+                    android:theme="@style/Theme.Nventry.PrimaryAccent"
+                    android:layout_marginBottom="10dp"
+                    android:visibility="@{ isUpdatingQuantity ? V.VISIBLE : V.GONE }"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
 

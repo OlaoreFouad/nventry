@@ -52,6 +52,10 @@ class BusinessRepository(
         return Network.updateProduct(product)
     }
 
+    suspend fun updateProductQuantity(productId: String, newQuantity: Int): Task<Void> {
+        return Network.updateProductQuantity(productId, newQuantity)
+    }
+
     suspend fun getProduct(id: String): Task<QuerySnapshot> {
         return Network.getProduct(id)
     }
