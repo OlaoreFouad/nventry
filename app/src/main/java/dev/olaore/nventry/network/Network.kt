@@ -69,6 +69,10 @@ object Network {
         ))
     }
 
+    fun deleteProduct(productId: String): Task<Void> {
+        return db.collection("products").document(productId).delete()
+    }
+
     fun updateBusiness(business: Business): Task<Void> {
         val businessRef = db.collection("businesses").document(business.businessId)
         return businessRef.update(mapOf(

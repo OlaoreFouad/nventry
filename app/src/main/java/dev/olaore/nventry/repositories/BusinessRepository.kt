@@ -60,4 +60,8 @@ class BusinessRepository(
         return Network.getProduct(id)
     }
 
+    suspend fun deleteProduct(productId: String): Task<Void> {
+        return Network.deleteProduct(productId)
+    }
+
 }

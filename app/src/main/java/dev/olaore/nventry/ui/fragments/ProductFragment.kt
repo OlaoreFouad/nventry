@@ -5,8 +5,8 @@ import android.util.Log
 import android.view.*
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -14,11 +14,9 @@ import androidx.navigation.fragment.navArgs
 import androidx.viewpager.widget.ViewPager
 import dev.olaore.nventry.R
 import dev.olaore.nventry.databinding.FragmentProductBinding
-import dev.olaore.nventry.databinding.FragmentProductsBinding
 import dev.olaore.nventry.databinding.SingleIndicatorBinding
 import dev.olaore.nventry.models.network.Product
 import dev.olaore.nventry.network.Status
-import dev.olaore.nventry.ui.adapters.OnboardingAdapter
 import dev.olaore.nventry.ui.adapters.ProductImagesAdapter
 import dev.olaore.nventry.ui.viewmodels.BusinessViewModel
 import dev.olaore.nventry.ui.viewmodels.ProductViewModel
@@ -86,6 +84,17 @@ class ProductFragment : Fragment() {
                 }
             }
         })
+        viewModel.productDeleted.observe(viewLifecycleOwner, Observer {
+            when (it.status) {
+                Status.ERROR -> {
+                    showSnackbar(binding.root, "Error occurred: ${ it.message }")
+                }
+                Status.SUCCESS -> {
+                    showSnackbar(binding.root, "Product deleted successfully!")
+                    requireActivity().onBackPressed()
+                }
+            }
+        })
 
         binding.addProductQuantity.setOnClickListener { this.increaseQuantity() }
         binding.removeProductQuantity.setOnClickListener { this.decreaseQuantity() }
@@ -112,6 +121,11 @@ class ProductFragment : Fragment() {
                     }
                     R.id.nav_share_product -> {
                         Log.d("ProductFragment", "Share Product Clicked!")
+                        true
+                    }
+                    R.id.nav_delete_product -> {
+                        Log.d("ProductFragment", "onDelete Product")
+                        initializeDelete()
                         true
                     }
                     else  -> false
@@ -162,10 +176,6 @@ class ProductFragment : Fragment() {
         setCurrentItem(0)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
     private fun setCurrentItem(currentIndex: Int) {
         invalidateActiveStates()
         imageBindings[currentIndex].current = true
@@ -189,6 +199,23 @@ class ProductFragment : Fragment() {
 
     private fun updateQuantity() {
         viewModel.updateQuantity(binding.quantity!!)
+    }
+
+    private fun initializeDelete() {
+
+        val alertDialog: AlertDialog = AlertDialog.Builder(requireContext())
+            .setTitle("Delete ${ product.name }")
+            .setMessage("Are you sure you want to delete this product?")
+            .setNegativeButton("No") { dInterface, _ ->
+                dInterface.dismiss()
+            }
+            .setPositiveButton("Yes") { dInterface, _ ->
+                dInterface.dismiss()
+                viewModel.deleteProduct(this.product.id)
+            }
+            .create()
+
+        alertDialog.show()
     }
 
 }

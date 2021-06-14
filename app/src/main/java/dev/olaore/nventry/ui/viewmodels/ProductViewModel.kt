@@ -17,6 +17,7 @@ class ProductViewModel(
 
     var product = MutableLiveData<Resource<Product>>()
     var productUpdated = MutableLiveData<Resource<Boolean>>()
+    var productDeleted = MutableLiveData<Resource<Boolean>>()
     var productId: String = ""
 
     fun getProduct() {
@@ -56,6 +57,24 @@ class ProductViewModel(
                 }
             } catch (ex: Exception) {
                 productUpdated.postValue(Resource.error(ex.message!!))
+            }
+        }
+
+    }
+
+    fun deleteProduct(productId: String) {
+        productDeleted.postValue(Resource.loading())
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                businessRepository.deleteProduct(productId).addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        productDeleted.postValue(Resource.success(true))
+                    } else {
+                        productDeleted.postValue(Resource.error(it.exception?.message!!))
+                    }
+                }
+            } catch (ex: Exception) {
+                productDeleted.postValue(Resource.error(ex.message!!))
             }
         }
 
