@@ -11,9 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import dev.olaore.nventry.R
+import androidx.navigation.fragment.navArgs
 import dev.olaore.nventry.databinding.FragmentUpsertProductBinding
 import dev.olaore.nventry.models.network.Product
 import dev.olaore.nventry.network.Network
@@ -22,6 +21,7 @@ import dev.olaore.nventry.ui.viewmodels.BusinessViewModel
 import dev.olaore.nventry.ui.viewmodels.UpsertProductViewModel
 import dev.olaore.nventry.ui.views.UploadImagesContainer
 import dev.olaore.nventry.utils.Utils
+import dev.olaore.nventry.utils.asURIs
 import dev.olaore.nventry.utils.obtainViewModel
 import dev.olaore.nventry.utils.showSnackbar
 
@@ -37,6 +37,7 @@ class UpsertProductFragment : Fragment(), UploadImagesContainer.Listener {
     private lateinit var businessId: String
 
     private lateinit var businessViewModel: BusinessViewModel
+    private lateinit var productToBeEdited: Product
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,9 +46,25 @@ class UpsertProductFragment : Fragment(), UploadImagesContainer.Listener {
         binding = FragmentUpsertProductBinding.inflate(
             inflater, container, false
         )
-        binding.isLoading = false
+
         viewModel = obtainViewModel(UpsertProductViewModel::class.java)
+
+        binding.isLoading = false
+        binding.editMode = false
+
         binding.uploadImagesContainer.addListener(this)
+
+        val args: UpsertProductFragmentArgs by navArgs()
+        args.product?.let { product ->
+            binding.editMode = true
+            viewModel.setProduct(product)
+            this.productToBeEdited = product
+            binding.uploadImagesContainer.setImages(this.productToBeEdited.imageUrls)
+        }
+
+        viewModel = obtainViewModel(UpsertProductViewModel::class.java)
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
 
         requireActivity().let {
             businessViewModel = ViewModelProvider(it).get(BusinessViewModel::class.java)
@@ -66,7 +83,18 @@ class UpsertProductFragment : Fragment(), UploadImagesContainer.Listener {
                 }
             }
         })
-
+        viewModel.productUpdated.observe(viewLifecycleOwner, Observer {
+            binding.isLoading = it.status == Status.LOADING
+            when (it.status) {
+                Status.ERROR -> {
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                }
+                Status.SUCCESS -> {
+                    showSnackbar(binding.root, "Product updated successfully!")
+                    requireActivity().onBackPressed()
+                }
+            }
+        })
         viewModel.fileUploadComplete.observe(viewLifecycleOwner, Observer {
             binding.isLoading = it.status == Status.LOADING
             when (it.status) {
@@ -78,20 +106,25 @@ class UpsertProductFragment : Fragment(), UploadImagesContainer.Listener {
                     val downloadUrl = it.data?.uploadUrl!!
                     this.uploadedImages.add(downloadUrl)
                     currentProductIndex++
-                    if (this.productImages.size == this.uploadedImages.size) {
-                        this.createProduct()
-                    } else {
-                        this.uploadNextImage(productName, this.productImages[currentProductIndex])
-                    }
+
+                    this.handleProductUpsert()
                 }
             }
         })
 
-        binding.addProductButton.setOnClickListener {
+        binding.upsertProductButton.setOnClickListener {
             uploadProductImages()
         }
 
         return binding.root
+    }
+
+    private fun handleProductUpsert() {
+        if (this.productImages.size == this.uploadedImages.size) {
+            this.upsertProduct()
+        } else if (this.currentProductIndex != this.productImages.size) {
+            this.uploadNextImage(productName, this.productImages[currentProductIndex])
+        }
     }
 
     private fun uploadProductImages() {
@@ -115,7 +148,35 @@ class UpsertProductFragment : Fragment(), UploadImagesContainer.Listener {
             return
         }
 
-        this.uploadNextImage(productName, this.productImages[0])
+        if (binding.editMode!!) {
+            this.uploadEditedImages(productName)
+        } else {
+            this.uploadNextImage(productName, this.productImages[0])
+        }
+
+    }
+
+    private fun uploadEditedImages(name: String) {
+
+        val originalProductImages = this.productToBeEdited.imageUrls.asURIs()
+        this.productImages = binding.uploadImagesContainer.getImages()
+
+        var imagesChanged = false
+
+        this.currentProductIndex = this.productImages.size - 1
+        this.productImages.forEach { newProductImage ->
+            val imageIndex = originalProductImages.indexOf(newProductImage)
+            if (imageIndex == -1) {
+                imagesChanged = true
+                this.uploadNextImage(name, newProductImage)
+            } else {
+                this.uploadedImages.add(newProductImage.toString())
+            }
+        }
+
+        if (!imagesChanged) {
+            this.upsertProduct()
+        }
 
     }
 
@@ -123,7 +184,7 @@ class UpsertProductFragment : Fragment(), UploadImagesContainer.Listener {
         viewModel.uploadImage(name, Network.getRandomId(), uri)
     }
 
-    private fun createProduct() {
+    private fun upsertProduct() {
         val newProduct = Product(
             "",
             this.businessId,
@@ -137,7 +198,12 @@ class UpsertProductFragment : Fragment(), UploadImagesContainer.Listener {
             System.currentTimeMillis()
         )
 
-        viewModel.createProduct(newProduct)
+        if (binding.editMode!!) {
+            newProduct.id = this.productToBeEdited.id
+            viewModel.updateProduct(newProduct)
+        } else {
+            viewModel.createProduct(newProduct)
+        }
 
     }
 

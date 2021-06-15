@@ -27,6 +27,8 @@ class UpsertProductViewModel(
     var productCreated = MutableLiveData<Resource<Boolean>>()
     var productUpdated = MutableLiveData<Resource<Boolean>>()
 
+    var product = MutableLiveData<Product>(Product())
+
     fun createProduct(newProduct: Product) {
 
         productCreated.postValue(Resource.loading())
@@ -52,7 +54,6 @@ class UpsertProductViewModel(
     ) {
 
         productUpdated.postValue(Resource.loading())
-
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 businessRepository.updateProduct(product).addOnCompleteListener {
@@ -69,6 +70,10 @@ class UpsertProductViewModel(
 
         }
 
+    }
+
+    fun setProduct(prod: Product) {
+        this.product.postValue(prod)
     }
 
     fun uploadImage(productName: String, fileId: String, uri: Uri) {

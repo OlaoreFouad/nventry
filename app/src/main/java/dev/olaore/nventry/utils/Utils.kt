@@ -1,5 +1,6 @@
 package dev.olaore.nventry.utils
 
+import android.net.Uri
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.Spanned
@@ -54,4 +55,8 @@ object Utils {
     const val BUSINESS_ID: String = "BUSINESS_ID"
     const val REQUEST_FILE_CODE = 1
 
+}
+
+fun List<String>.asURIs(): List<Uri> {
+    return this.map { Uri.parse(it) }
 }

@@ -12,6 +12,7 @@ import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import dev.olaore.nventry.R
 import dev.olaore.nventry.ui.listeners.ImageInteraction
 import dev.olaore.nventry.utils.showSnackbar
@@ -23,6 +24,8 @@ constructor(
     private val defStyleAttr: Int = 0,
     private val defStyleRes: Int = 0
 ) : ConstraintLayout(ctx, attributeSet, defStyleAttr, defStyleRes), ImageInteraction {
+
+    var editMode = false
 
     interface Listener {
 
@@ -110,8 +113,14 @@ constructor(
         }
     }
 
+    fun setImages(imageUrls: List<String>) {
+        this.editMode = true
+        this.images = imageUrls.map { Uri.parse(it) }.toMutableList()
+        this.populateImages()
+    }
+
     private fun populateImages() {
-        imagesAdapter = ImagesAdapter(ctx, this.images, this)
+        imagesAdapter = ImagesAdapter(ctx, this.images, this, this.editMode)
         imagesList.apply {
             adapter = imagesAdapter
             layoutManager = LinearLayoutManager(ctx, LinearLayoutManager.HORIZONTAL, false)
@@ -128,8 +137,10 @@ constructor(
 }
 
 class ImagesAdapter(
-    private var ctx: Context, private var images: List<Uri>,
-    private var imageInteraction: ImageInteraction
+    private var ctx: Context,
+    private var images: List<Uri>,
+    private var imageInteraction: ImageInteraction,
+    private var editMode: Boolean
 ) : RecyclerView.Adapter<ImagesAdapter.ImageViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
@@ -141,7 +152,12 @@ class ImagesAdapter(
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
 
         val uri = this.images[position]
-        holder.bind(uri)
+
+        if (editMode) {
+            holder.bindAsEdit(uri.toString())
+        } else {
+            holder.bind(uri)
+        }
 
     }
 
@@ -156,6 +172,11 @@ class ImagesAdapter(
             deleteAction.setOnClickListener {
                 imageInteraction.onDeleteImage(adapterPosition)
             }
+        }
+
+        fun bindAsEdit(url: String) {
+            Glide.with(ctx).load(url).into(actualImage)
+            imageInteraction.onImageBound()
         }
 
         fun bind(uri: Uri) {

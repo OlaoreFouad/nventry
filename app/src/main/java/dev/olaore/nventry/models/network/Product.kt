@@ -1,5 +1,7 @@
 package dev.olaore.nventry.models.network
 
+import java.io.Serializable
+
 data class Product(
     var id: String = "",
     var businessId: String = "",
@@ -12,4 +14,4 @@ data class Product(
     var imageUrls: List<String> = listOf(),
     val createdOn: Long = 0L,
     val webLink: String = ""
-)
+) : Serializable

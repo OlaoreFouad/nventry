@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager.widget.ViewPager
 import dev.olaore.nventry.R
@@ -79,7 +80,7 @@ class ProductFragment : Fragment() {
                     showSnackbar(binding.root, "Error occurred: ${ it.message }")
                 }
                 Status.SUCCESS -> {
-                    this.product.quantity = binding.quantity!!
+                    viewModel.getProduct()
                     showSnackbar(binding.root, "Quantity updated successfully!")
                 }
             }
@@ -103,6 +104,11 @@ class ProductFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        imageBindings.clear()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getProduct()
@@ -116,7 +122,10 @@ class ProductFragment : Fragment() {
             setOnMenuItemClickListener { menuItem ->
                 when(menuItem.itemId) {
                     R.id.nav_edit_product -> {
-                        Log.d("ProductFragment", "Edit Product Clicked!")
+                        Log.d("ProductFragment", "onEdit Product")
+                        findNavController().navigate(
+                            ProductFragmentDirections.actionProductFragmentToUpsertProductFragment(product)
+                        )
                         true
                     }
                     R.id.nav_share_product -> {
@@ -161,17 +170,20 @@ class ProductFragment : Fragment() {
             productImagesViewPager.adapter = mProductImagesAdapter
         }
 
-        this.product.imageUrls.forEach { _ ->
-            val lBinding = SingleIndicatorBinding.inflate(layoutInflater)
-            lBinding.current = false
-            val textView = lBinding.root as TextView
-            this.imageBindings.add(lBinding)
-            val indicatorSize = requireContext().resources.getDimension(R.dimen.indicator_size_lg).toInt()
-            val indicatorMarginSize = requireContext().resources.getDimension(R.dimen.indicator_margin_size).toInt()
-            val params = LinearLayout.LayoutParams(indicatorSize, indicatorSize)
-            params.setMargins(indicatorMarginSize,0, indicatorMarginSize,0);
-            textView.layoutParams = params
-            binding.imageIndicatorsContainer.addView(textView)
+        if (this.imageBindings.size != this.product.imageUrls.size) {
+            binding.imageIndicatorsContainer.removeAllViews()
+            this.product.imageUrls.forEach { _ ->
+                val lBinding = SingleIndicatorBinding.inflate(layoutInflater)
+                lBinding.current = false
+                val textView = lBinding.root as TextView
+                this.imageBindings.add(lBinding)
+                val indicatorSize = requireContext().resources.getDimension(R.dimen.indicator_size_lg).toInt()
+                val indicatorMarginSize = requireContext().resources.getDimension(R.dimen.indicator_margin_size).toInt()
+                val params = LinearLayout.LayoutParams(indicatorSize, indicatorSize)
+                params.setMargins(indicatorMarginSize,0, indicatorMarginSize,0);
+                textView.layoutParams = params
+                binding.imageIndicatorsContainer.addView(textView)
+            }
         }
         setCurrentItem(0)
     }

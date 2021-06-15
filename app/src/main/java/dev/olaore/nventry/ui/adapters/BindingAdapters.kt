@@ -25,6 +25,11 @@ fun setPrice(view: TextView, price: Float) {
     view.text = "AED $price"
 }
 
+@BindingAdapter("displayPlainPrice")
+fun removePrice(view: TextView, stringedPrice: Any) {
+    view.text = stringedPrice.toString().replace("AED", "").trim()
+}
+
 @SuppressLint("SetTextI18n")
 @BindingAdapter("displayQuantity")
 fun setQuantity(view: TextView, qty: Int) {
