@@ -20,6 +20,8 @@ class ProductImagesAdapter(
 
     override fun getCount() = images.size
 
+    val views = mutableListOf<ImageView>()
+
     @SuppressLint("SetTextI18n")
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
 
@@ -29,6 +31,8 @@ class ProductImagesAdapter(
 
         Glide.with(ctx).load(images[position]).placeholder(R.drawable.no_image).into(productImage)
         container.addView(productImageView)
+
+        views.add(productImage)
 
         return productImageView
     }
