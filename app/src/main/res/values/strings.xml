@@ -57,4 +57,7 @@
     <string name="sharing_text">Sharing Promo</string>
     <string name="web_link_text">Web Link</string>
     <string name="copy">Copy</string>
+    <string name="recently_shared_products_text">Recently Shared Products</string>
+    <string name="blender">BLENDER</string>
+    <string name="today_20_05pm">Today, 20:05PM</string>
 </resources>

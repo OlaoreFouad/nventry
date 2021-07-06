@@ -65,6 +65,10 @@ class ProductFragment : Fragment() {
         binding.quantity = 0
         binding.isUpdatingQuantity = false
 
+        binding.copyDescription.setOnClickListener { copyToClipboard("Description", this.product.description) }
+        binding.copySharingPromo.setOnClickListener { copyToClipboard("Sharing Promo", this.product.sharingText) }
+        binding.copyWebLink.setOnClickListener { copyToClipboard("Web Link", this.product.webLink) }
+
         val args: ProductFragmentArgs by navArgs()
         viewModel.productId = args.productId
         viewModel.product.observe(viewLifecycleOwner, Observer { product ->
@@ -157,6 +161,12 @@ class ProductFragment : Fragment() {
 
     private fun share(index: Int) {
         shareProduct(requireContext(), product.sharingText, this.mProductImagesAdapter.views[index], "Share ${ product.name }")
+    }
+
+    fun copyToClipboard(label: String, text: String) {
+        requireContext().copyToClipboard(text) {
+            showSnackbar(binding.root, "$label copied to clipboard!")
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

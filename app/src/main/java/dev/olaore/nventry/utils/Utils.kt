@@ -1,5 +1,8 @@
 package dev.olaore.nventry.utils
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.net.Uri
 import android.text.Spannable
 import android.text.SpannableString
@@ -55,6 +58,14 @@ object Utils {
     const val BUSINESS_ID: String = "BUSINESS_ID"
     const val REQUEST_FILE_CODE = 1
 
+}
+
+fun Context.copyToClipboard(text: String, callback: () -> Unit) {
+    val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    val clip = ClipData.newPlainText("label", text)
+    clipboard.setPrimaryClip(clip)
+
+    callback()
 }
 
 fun List<String>.asURIs(): List<Uri> {
