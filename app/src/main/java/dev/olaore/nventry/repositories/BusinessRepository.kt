@@ -6,15 +6,33 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import dev.olaore.nventry.database.NventryDatabase
+import dev.olaore.nventry.models.database.SharedProduct
 import dev.olaore.nventry.models.domain.Business
 import dev.olaore.nventry.models.network.NetworkBusiness
 import dev.olaore.nventry.models.network.Product
 import dev.olaore.nventry.network.Network
 import dev.olaore.nventry.network.Storage
+import kotlinx.coroutines.*
 
 class BusinessRepository(
     val database: NventryDatabase
 ) {
+
+    private var ioScope = CoroutineScope(Dispatchers.IO + Job())
+
+    suspend fun saveSharedProduct(sharedProduct: SharedProduct) {
+        ioScope.launch {
+            database.sharedProductsDao.saveSharedProduct(sharedProduct)
+        }
+    }
+
+    suspend fun getSharedProducts(): List<SharedProduct> {
+        val response: Deferred<List<SharedProduct>> = ioScope.async {
+            database.sharedProductsDao.getSharedProducts()
+        }
+
+        return response.await()
+    }
 
     suspend fun uploadBusinessImage(businessName: String, fileUri: Uri, fileId: String): Pair<UploadTask, StorageReference> {
         return Storage.uploadBusinessImage(businessName, fileId, fileUri)

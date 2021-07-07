@@ -15,7 +15,7 @@ import dev.olaore.nventry.R
 
 class ProductImagesAdapter(
     private val ctx: Context,
-    private val images: List<String>
+    val images: List<String>
 ) : PagerAdapter() {
 
     override fun getCount() = images.size

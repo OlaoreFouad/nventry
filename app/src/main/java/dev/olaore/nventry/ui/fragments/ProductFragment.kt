@@ -1,6 +1,6 @@
 package dev.olaore.nventry.ui.fragments
 
-import android.content.DialogInterface
+import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
@@ -43,7 +43,15 @@ class ProductFragment : Fragment() {
 
     private lateinit var mProductImagesAdapter: ProductImagesAdapter
     private lateinit var mOnPageChangeListener: ViewPager.OnPageChangeListener
-    private var imageBindings = mutableListOf<SingleIndicatorBinding>();
+    private var imageBindings = mutableListOf<SingleIndicatorBinding>()
+
+    val SHARE_COMPLETE_RECEIVER = object : BroadcastReceiver() {
+        override fun onReceive(p0: Context?, p1: Intent?) {
+            val temporaryDetails = Prefs.getSharedProductDetails(p0!!)
+            Prefs.clearSharedProducts(p0!!)
+            viewModel.saveSharedProduct(temporaryDetails.name, temporaryDetails.image, temporaryDetails.sharingText)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,13 +68,25 @@ class ProductFragment : Fragment() {
         }
         viewModel = obtainViewModel(ProductViewModel::class.java)
 
+        requireContext().registerReceiver(SHARE_COMPLETE_RECEIVER, IntentFilter("SHARE_COMPLETE"))
+
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.quantity = 0
         binding.isUpdatingQuantity = false
 
-        binding.copyDescription.setOnClickListener { copyToClipboard("Description", this.product.description) }
-        binding.copySharingPromo.setOnClickListener { copyToClipboard("Sharing Promo", this.product.sharingText) }
+        binding.copyDescription.setOnClickListener {
+            copyToClipboard(
+                "Description",
+                this.product.description
+            )
+        }
+        binding.copySharingPromo.setOnClickListener {
+            copyToClipboard(
+                "Sharing Promo",
+                this.product.sharingText
+            )
+        }
         binding.copyWebLink.setOnClickListener { copyToClipboard("Web Link", this.product.webLink) }
 
         val args: ProductFragmentArgs by navArgs()
@@ -160,7 +180,13 @@ class ProductFragment : Fragment() {
     }
 
     private fun share(index: Int) {
-        shareProduct(requireContext(), product.sharingText, this.mProductImagesAdapter.views[index], "Share ${ product.name }")
+        shareProduct(
+            requireContext(),
+            product.sharingText,
+            this.mProductImagesAdapter.views[index],
+            "Share ${product.name}",
+            this.mProductImagesAdapter.images[index]
+        )
     }
 
     fun copyToClipboard(label: String, text: String) {
@@ -309,13 +335,14 @@ class ProductFragment : Fragment() {
         selectImagesList.apply {
             adapter = selectImagesAdapter
             setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
+            layoutManager =
+                LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false)
         }
 
         val selectImagesDialogBuilder = AlertDialog.Builder(requireContext())
         selectImagesDialogBuilder.setTitle("Select Image To Share")
             .setView(view)
-            .setPositiveButton("Select Image"){ dialog, _ ->
+            .setPositiveButton("Select Image") { dialog, _ ->
                 val index = selectImagesAdapter.selectedImageIndex
                 share(index)
                 dialog.dismiss()
@@ -328,5 +355,11 @@ class ProductFragment : Fragment() {
 
 
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        requireContext().unregisterReceiver(SHARE_COMPLETE_RECEIVER)
+    }
+
 }
 

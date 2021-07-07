@@ -23,6 +23,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity"/>
+
+        <receiver android:name=".ui.receivers.SharedProductsBroadcastReceiver"/>
     </application>
 
 </manifest>

@@ -12,5 +12,5 @@ class NventryApplication : Application() {
         get() = UserRepository(getUsersDatabase(applicationContext))
 
     val businessRepository: BusinessRepository
-        get() = BusinessRepository(getNventryDatabase())
+        get() = BusinessRepository(getNventryDatabase(applicationContext))
 }

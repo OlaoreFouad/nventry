@@ -3,6 +3,7 @@ package dev.olaore.nventry.ui.viewmodels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dev.olaore.nventry.models.database.SharedProduct
 import dev.olaore.nventry.models.domain.Business
 import dev.olaore.nventry.models.network.NetworkBusiness
 import dev.olaore.nventry.models.network.Product
@@ -10,6 +11,7 @@ import dev.olaore.nventry.network.Resource
 import dev.olaore.nventry.repositories.BusinessRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 
 class ProductViewModel(
     private var businessRepository: BusinessRepository
@@ -78,6 +80,16 @@ class ProductViewModel(
             }
         }
 
+    }
+
+    fun saveSharedProduct(name: String, imageUrl: String, sharingText: String) {
+        val sharedProduct = SharedProduct(
+            UUID.randomUUID().toString(), name, System.currentTimeMillis(), imageUrl, sharingText
+        )
+
+        viewModelScope.launch {
+            businessRepository.saveSharedProduct(sharedProduct)
+        }
     }
 
 }

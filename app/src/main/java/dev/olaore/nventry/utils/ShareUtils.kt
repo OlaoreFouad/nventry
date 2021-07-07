@@ -1,14 +1,17 @@
 package dev.olaore.nventry.utils
 
 import android.Manifest
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.net.Uri
+import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.ImageView
+import dev.olaore.nventry.ui.receivers.SharedProductsBroadcastReceiver
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.nio.ByteBuffer
@@ -18,17 +21,41 @@ val imagePermissions = listOf(
 )
 var image: Bitmap? = null
 
-fun shareProduct(ctx: Context, text: String, imageView: ImageView, title: String): Boolean {
+const val SHARE_PRODUCT_REQUEST_CODE = 1000
+
+fun shareProduct(
+    ctx: Context,
+    text: String,
+    imageView: ImageView,
+    title: String,
+    imageUrl: String
+): Boolean {
 
     val shareIntent = Intent(Intent.ACTION_SEND).apply {
         type = "image/*"
         putExtra(Intent.EXTRA_TEXT, text)
-        putExtra(Intent.EXTRA_STREAM, getImageUri(
-            ctx, getBitmapFromView(imageView)
-        ))
+        putExtra(
+            Intent.EXTRA_STREAM, getImageUri(
+                ctx, getBitmapFromView(imageView)
+            )
+        )
     }
 
-    ctx.startActivity(Intent.createChooser(shareIntent, title))
+    val pendingIntent = PendingIntent.getBroadcast(
+        ctx,
+        SHARE_PRODUCT_REQUEST_CODE,
+        Intent(ctx, SharedProductsBroadcastReceiver::class.java),
+        PendingIntent.FLAG_UPDATE_CURRENT
+    )
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+
+        Prefs.saveProductDetails(ctx, title.substring(5, title.length), text, imageUrl)
+
+        ctx.startActivity(Intent.createChooser(shareIntent, title, pendingIntent.intentSender))
+    } else {
+        ctx.startActivity(Intent.createChooser(shareIntent, title))
+    }
 
     return true
 

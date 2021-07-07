@@ -22,6 +22,7 @@ class ViewModelFactory(
             BusinessViewModel::class.java -> BusinessViewModel(userRepository, businessRepository)
             ProductsViewModel::class.java -> ProductsViewModel(userRepository, businessRepository)
             ProductViewModel::class.java -> ProductViewModel(businessRepository)
+            ShareViewModel::class.java -> ShareViewModel(businessRepository)
             else -> throw IllegalArgumentException("Argument passed in must be of type ViewModel")
         } as T
     }
