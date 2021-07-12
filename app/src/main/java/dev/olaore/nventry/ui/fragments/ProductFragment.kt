@@ -140,7 +140,7 @@ class ProductFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        imageBindings.clear()
+//        imageBindings.clear()
     }
 
     private fun checkPermissions() {
@@ -252,7 +252,13 @@ class ProductFragment : Fragment() {
             }
 
             override fun onPageSelected(position: Int) {
-                setCurrentItem(position)
+                try {
+                    setCurrentItem(position)
+                } catch(ex: Exception) {
+                    showSnackbar(
+                        binding.root, "Error occurred: ${ ex.message }: $position: ${ imageBindings.size }"
+                    )
+                }
             }
         }
 

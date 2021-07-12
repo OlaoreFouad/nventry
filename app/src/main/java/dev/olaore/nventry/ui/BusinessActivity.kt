@@ -34,9 +34,6 @@ class BusinessActivity : AppCompatActivity() {
             finish()
         }
 
-        showSnackbar(this.bottomNavigationView, "Mo ti de bi o!: ${this.businessId}")
-
-
         setupNavigation()
 
     }
