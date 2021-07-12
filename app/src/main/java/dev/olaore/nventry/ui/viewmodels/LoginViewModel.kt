@@ -60,24 +60,30 @@ class LoginViewModel(
         return formErrors.isEmpty()
     }
 
+    // login logic on Login ViewModel
     fun login() {
-        Log.d("LoginViewModel", "Email: ${ email.value }, Password: ${ password.value }")
-
+        // update state on UI to "LOADING"
         loggedInUser.postValue(Resource.loading())
-
         try {
-
+            // call firebase auth service and send email and password as signIn parameters
             Auth.auth.signInWithEmailAndPassword(email.value!!, password.value!!)
                 .addOnCompleteListener {
                     if (it.isSuccessful) {
+                        // get user details if user logged-in successfully.
                         getUserDetails(email.value!!)
                     } else {
-                        loggedInUser.postValue(Resource.error("Error occurred while trying to log you in: " + it.exception?.message))
+                        // update state on UI to "ERROR" with appropriate error message.
+                        loggedInUser.postValue(Resource.error(
+                            "Error occurred while trying to log you in: "
+                                + it.exception?.message))
                     }
                 }
 
         } catch (ex: Exception) {
-            loggedInUser.postValue(Resource.error("Error occurred while trying to log you in: " + ex.message))
+            // update UI state to "ERROR" with error message if exception occurs.
+            loggedInUser.postValue(Resource.error(
+                "Error occurred while trying to log you in: "
+                    + ex.message))
         }
 
     }

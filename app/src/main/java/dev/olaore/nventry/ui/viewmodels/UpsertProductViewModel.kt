@@ -49,22 +49,26 @@ class UpsertProductViewModel(
 
     }
 
+    // logic to update product
     fun updateProduct(
         product: Product
     ) {
-
+        // update loading state on UI
         productUpdated.postValue(Resource.loading())
         viewModelScope.launch(Dispatchers.IO) {
             try {
+                // call update product logic
                 businessRepository.updateProduct(product).addOnCompleteListener {
                     if (it.isSuccessful) {
+                        // return TRUE if process completed successfully.
                         productUpdated.postValue(Resource.success(true))
                     } else {
+                        // return ERROR MESSAGE if exception occurred
                         productUpdated.postValue(Resource.error(it.exception?.message!!))
                     }
                 }
-
             } catch (ex: Exception) {
+                // return ERROR MESSAGE if exception occurred
                 productUpdated.postValue(Resource.error(ex.message!!))
             }
 

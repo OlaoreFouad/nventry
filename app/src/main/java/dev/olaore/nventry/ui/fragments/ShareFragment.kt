@@ -42,7 +42,9 @@ class ShareFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // subscribe for sharedproducts event
         viewModel.sharedProducts.observe(viewLifecycleOwner, Observer { products ->
+            // populate the list
             binding.sharedProductsList.apply {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(requireContext())
@@ -54,6 +56,7 @@ class ShareFragment : Fragment() {
             }
         })
 
+        // get shared products
         viewModel.getSharedProducts()
     }
 

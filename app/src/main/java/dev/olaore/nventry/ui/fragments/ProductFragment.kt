@@ -45,8 +45,10 @@ class ProductFragment : Fragment() {
     private lateinit var mOnPageChangeListener: ViewPager.OnPageChangeListener
     private var imageBindings = mutableListOf<SingleIndicatorBinding>()
 
+    // receive share "re-broadcast"
     val SHARE_COMPLETE_RECEIVER = object : BroadcastReceiver() {
         override fun onReceive(p0: Context?, p1: Intent?) {
+            // save sharedproduct
             val temporaryDetails = Prefs.getSharedProductDetails(p0!!)
             Prefs.clearSharedProducts(p0!!)
             viewModel.saveSharedProduct(temporaryDetails.name, temporaryDetails.image, temporaryDetails.sharingText)
@@ -179,13 +181,15 @@ class ProductFragment : Fragment() {
 
     }
 
+    // logic to share with social media platforms
     private fun share(index: Int) {
+        // call shareProduct function with required parameters
         shareProduct(
-            requireContext(),
-            product.sharingText,
-            this.mProductImagesAdapter.views[index],
-            "Share ${product.name}",
-            this.mProductImagesAdapter.images[index]
+            requireContext(), // screen context
+            product.sharingText, // text to be shared
+            this.mProductImagesAdapter.views[index], // image widget showing selected image
+            "Share ${product.name}", // share title
+            this.mProductImagesAdapter.images[index] // image url to be shared
         )
     }
 

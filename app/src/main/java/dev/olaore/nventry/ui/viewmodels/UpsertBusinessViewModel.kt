@@ -30,10 +30,11 @@ class UpsertBusinessViewModel(
 
     }
 
+    // create business logic
     fun createBusiness(
         businessName: String, businessDescription: String, logoUrl: String
     ) {
-
+        // gather entered business details
         val newBusiness = NetworkBusiness(
             Network.getRandomId(),
             Auth.auth.currentUser!!.uid,
@@ -42,51 +43,50 @@ class UpsertBusinessViewModel(
             logoUrl,
             createdOn = System.currentTimeMillis()
         )
-
+        // update loading state on UI
         businessCreated.postValue(Resource.loading())
 
         viewModelScope.launch {
             try {
+                // create business
                 businessRepository.createBusiness(newBusiness).addOnCompleteListener {
                     if (it.isSuccessful) {
+                        // respond with TRUE if business created successfully
                         businessCreated.postValue(Resource.success(true))
                     } else {
+                        // respond with error message if process failed
                         businessCreated.postValue(Resource.error(it.exception?.message!!))
                     }
                 }
             } catch (ex: Exception) {
+                // respond with error message if process failed
                 businessCreated.postValue(Resource.error(ex.message!!))
             }
         }
-
     }
 
     fun updateBusiness(
         business: Business
     ) {
-
+        // update loading state on UI
         businessUpdated.postValue(Resource.loading())
-
         viewModelScope.launch(Dispatchers.IO) {
-
             try {
-
+                // call update business logic
                 businessRepository.updateBusiness(business).addOnCompleteListener {
                     if (it.isSuccessful) {
-
+                        // send TRUE if business update completed successfully
                         businessUpdated.postValue(Resource.success(true))
-
                     } else {
+                        // send error message if exception occurred
                         businessUpdated.postValue(Resource.error(it.exception?.message!!))
                     }
                 }
-
             } catch (ex: Exception) {
+                // send error message if exception occurred
                 businessUpdated.postValue(Resource.error(ex.message!!))
             }
-
         }
-
     }
 
     fun uploadImage(businessName: String, fileId: String, uri: Uri) {

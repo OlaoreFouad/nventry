@@ -44,44 +44,46 @@ class AddBusinessFragment : Fragment(), UploadImageContainer.Listener {
 
         viewModel = obtainViewModel(UpsertBusinessViewModel::class.java)
 
+        // subscribe to fileUpload event (only create business when
+        // image has been uploaded successfully)
         viewModel.fileUploadComplete.observe(viewLifecycleOwner, Observer {
-
+            // update UI loading state
             binding.isLoading = it.status == Status.LOADING
             when (it.status) {
-
                 Status.ERROR -> {
+                    // show error message if upload failed
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
                 }
                 Status.SUCCESS -> {
+                    // if successful, get image upload url
                     val downloadUrl = it.data?.uploadUrl
+                    // create business
                     viewModel.createBusiness(
                         binding.businessNameEditText.editText!!.text.toString(),
                         binding.businessDescriptionEditText.editText!!.text.toString(),
                         downloadUrl!!
                     )
                 }
-
             }
-
         })
 
+        // subscribe to business creation event
         viewModel.businessCreated.observe(viewLifecycleOwner, Observer {
-
-            binding.isLoading = it.status == Status.LOADING
-
+            binding.isLoading = it.status == Status.LOADING // update UI loading state
             when (it.status) {
                 Status.ERROR -> {
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show() // show error if creation failed
                 }
                 Status.SUCCESS -> {
                     Log.d("AddBusinessFragment", "Business Created")
-                    requireActivity().onBackPressed()
+                    requireActivity().onBackPressed() // go back to main list once business created
                 }
             }
-
         })
 
+        // set on-click listener on add business button
         binding.addBusinessButton.setOnClickListener {
+            // call addBusiness function
             addBusiness()
         }
 
@@ -91,21 +93,25 @@ class AddBusinessFragment : Fragment(), UploadImageContainer.Listener {
 
     private fun addBusiness() {
 
+        // get business names and descriptions
         val businessName = binding.businessNameEditText.editText?.text.toString()
         val businessDescription = binding.businessDescriptionEditText.editText?.text.toString()
 
+        // ensure business names and description are not empty
         if (businessName.isEmpty() || businessDescription.isEmpty()) {
             Toast.makeText(requireContext(), "Kindly fill all fields", Toast.LENGTH_LONG).show()
             return
         }
 
+        // ensure user has selected one image for business image/logo
         if (binding.uploadImageContainer.hasUploadedImage) {
             val uri = binding.uploadImageContainer.getCurrentImageUri()
             val fileId = Network.getRandomId()
 
-            // get url
+            // upload image to firebase storage
             viewModel.uploadImage(businessName, fileId, uri)
         } else {
+            // inform user of the necessity to select an image
             Toast.makeText(requireContext(), "Please upload a business logo/image", Toast.LENGTH_LONG).show()
         }
 

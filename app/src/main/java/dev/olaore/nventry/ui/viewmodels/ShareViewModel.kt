@@ -11,11 +11,14 @@ class ShareViewModel(
     private val businessRepository: BusinessRepository
 ) : ViewModel() {
 
+    // variable to hold list of shared products
     var sharedProducts = MutableLiveData<List<SharedProduct>>()
 
+    // retrieve shared products
     fun getSharedProducts() {
 
         viewModelScope.launch {
+            // update state with list of shared products
             sharedProducts.postValue(
                 businessRepository.getSharedProducts()
             )

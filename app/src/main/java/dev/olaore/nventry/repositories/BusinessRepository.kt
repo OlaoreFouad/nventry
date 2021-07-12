@@ -20,6 +20,7 @@ class BusinessRepository(
 
     private var ioScope = CoroutineScope(Dispatchers.IO + Job())
 
+    // save shared product
     suspend fun saveSharedProduct(sharedProduct: SharedProduct) {
         ioScope.launch {
             database.sharedProductsDao.saveSharedProduct(sharedProduct)

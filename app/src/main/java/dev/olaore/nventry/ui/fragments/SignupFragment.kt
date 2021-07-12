@@ -49,25 +49,29 @@ class SignupFragment : Fragment() {
         createLoginSpannable()
 
         viewModel.createdAccount.observe(viewLifecycleOwner, Observer {
-
-            binding.isLoading = it.status == Status.LOADING
+            binding.isLoading = it.status == Status.LOADING // update loading state
             when (it.status) {
                 Status.SUCCESS -> {
-                    val user: DatabaseUser? = it.data
+                    val user: DatabaseUser? = it.data // get user data
                     showSnackbar(binding.isLoadingProgress, "User created successfully!")
                     viewModel.saveUserDetailsToDatabase(user!!)
-                    Prefs.saveAuthenticatedUser(requireContext(), user.userId)
-                    openHome()
+                    Prefs.saveAuthenticatedUser(requireContext(), user.userId) // save user details to preferences
+                    openHome() // open home screen
                 }
                 Status.ERROR -> {
-                    showSnackbar(binding.isLoadingProgress, "Error occurred while creating account: " + it.message)
+                    // show alert error if an error event is emitted.
+                    showSnackbar(binding.isLoadingProgress, "Error occurred while creating account: "
+                            + it.message)
                 }
             }
 
         })
 
+        // set on-click listener for signup button
         binding.signupButton.setOnClickListener {
+            // close keyboard
             closeKeyboard()
+            // call createaccount logic in Signup ViewModel
             viewModel.createAccount()
         }
 

@@ -57,32 +57,32 @@ class SignupViewModel (
         return formErrors.isEmpty()
     }
 
+    // create account logic
     fun createAccount() {
-        Log.d("SignupViewModel", "Username: ${ username.value }, Email: ${ email.value }, Password: ${ password.value }")
-
+        // create temporary user with details passed in from the UI
         val user = TemporaryUser(
             username.value!!, password.value!!, email.value!!, System.currentTimeMillis()
         )
+        // update UI state to "LOADING"
         createdAccount.postValue(Resource.loading())
-
         viewModelScope.launch {
-
             try {
-
+                // make call to firebase authentication to create user
+                // based on the details entered
                 Auth.auth.createUserWithEmailAndPassword(
                     user.email, user.password
                 ).addOnCompleteListener {
                     if (it.isSuccessful) {
+                        // save user details if account creation succeeded
                         saveUserDetails(user)
                     } else {
+                        // update UI with error if process failed
                         createdAccount.postValue(Resource.error(it.exception?.message!!))
                     }
                 }
-
             } catch (ex: Exception) {
-                createdAccount.postValue(
-                    Resource.error(ex.message!!)
-                )
+                // update UI state to "ERROR" with error message if exception occurs.
+                createdAccount.postValue(Resource.error(ex.message!!))
             }
         }
 

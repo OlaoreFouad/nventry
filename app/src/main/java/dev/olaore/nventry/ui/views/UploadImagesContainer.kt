@@ -60,10 +60,13 @@ constructor(
         uploadAction = findViewById(R.id.upload_image_action)
         imagesList = findViewById(R.id.images_list)
 
+        // set listener to image upload button
         uploadAction.setOnClickListener {
             if (this.images.size == 3) {
+                // ensure user does not upload more than 3 images
                 showSnackbar(it, "You cannot upload more than three images")
             } else {
+                // request image upload
                 this.listener.onRequestImageUpload()
             }
         }

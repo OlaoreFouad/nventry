@@ -23,6 +23,7 @@ var image: Bitmap? = null
 
 const val SHARE_PRODUCT_REQUEST_CODE = 1000
 
+// shareProduct logic
 fun shareProduct(
     ctx: Context,
     text: String,
@@ -31,16 +32,18 @@ fun shareProduct(
     imageUrl: String
 ): Boolean {
 
+    // create intent to share product
     val shareIntent = Intent(Intent.ACTION_SEND).apply {
         type = "image/*"
         putExtra(Intent.EXTRA_TEXT, text)
         putExtra(
             Intent.EXTRA_STREAM, getImageUri(
-                ctx, getBitmapFromView(imageView)
+                ctx, getBitmapFromView(imageView) // get image from imageView
             )
         )
     }
 
+    // get pending intent to react post-share event
     val pendingIntent = PendingIntent.getBroadcast(
         ctx,
         SHARE_PRODUCT_REQUEST_CODE,
@@ -48,10 +51,9 @@ fun shareProduct(
         PendingIntent.FLAG_UPDATE_CURRENT
     )
 
+    // launch intent based on the installed android version
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-
         Prefs.saveProductDetails(ctx, title.substring(5, title.length), text, imageUrl)
-
         ctx.startActivity(Intent.createChooser(shareIntent, title, pendingIntent.intentSender))
     } else {
         ctx.startActivity(Intent.createChooser(shareIntent, title))
@@ -61,6 +63,7 @@ fun shareProduct(
 
 }
 
+// retrieve image from view
 private fun getBitmapFromView(view: ImageView): Bitmap {
     val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
     val canvas = Canvas(bitmap)
@@ -68,6 +71,7 @@ private fun getBitmapFromView(view: ImageView): Bitmap {
     return bitmap
 }
 
+// install image temporarily and save in file storage
 private fun getImageUri(ctx: Context, bitmap: Bitmap): Uri? {
     val bytes = ByteArrayOutputStream()
     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes)

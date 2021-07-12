@@ -51,37 +51,41 @@ class LoginFragment : Fragment() {
             viewModel.getDatabaseUser(userId)
         }
 
+        // subscribe to login event
         viewModel.loggedInUser.observe(viewLifecycleOwner, Observer {
-
             binding.isLoading = it.status == Status.LOADING
-
             when (it.status) {
-
                 Status.SUCCESS -> {
-
+                    // show alert when login succeeds
                     val user: DatabaseUser = it.data!!
                     showSnackbar(binding.isLoadingProgress, "Login successful!")
-                    Prefs.saveAuthenticatedUser(requireContext(), user.userId)
-                    viewModel.saveUserDetailsToDatabase(user)
-                    openHome()
+                    Prefs.saveAuthenticatedUser(requireContext(), user.userId) // save user details to local preferences
+                    viewModel.saveUserDetailsToDatabase(user) // update user details in local database
+                    openHome() // open Home of application
 
                 }
                 Status.ERROR -> {
-                    showSnackbar(binding.isLoadingProgress, "Error occurred while logging you in: ${ it.message }")
+                    // show alert if error occurs.
+                    showSnackbar(
+                        binding.isLoadingProgress,
+                        "Error occurred while logging you in: ${it.message}"
+                    )
                 }
-
             }
-
         })
 
+        // set onclick listener on login button
         binding.loginButton.setOnClickListener {
+            // close keyboard
             closeKeyboard()
+            // call login logic on Login ViewModel
             viewModel.login()
         }
     }
 
     private fun closeKeyboard() {
-        val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm =
+            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         var view = requireActivity().currentFocus
 
         if (view == null) {
@@ -93,8 +97,10 @@ class LoginFragment : Fragment() {
     }
 
     private fun createSignupSpannable() {
-        val signupTextIndex = resources.getString(R.string.don_t_have_an_account_sign_up).indexOf("S")
-        val signupTextString = SpannableString(resources.getString(R.string.don_t_have_an_account_sign_up))
+        val signupTextIndex =
+            resources.getString(R.string.don_t_have_an_account_sign_up).indexOf("S")
+        val signupTextString =
+            SpannableString(resources.getString(R.string.don_t_have_an_account_sign_up))
 
         val clickableSpan = CustomClickableSpan {
             navigateToSignupScreen()

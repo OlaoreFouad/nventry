@@ -72,14 +72,14 @@ class UpsertProductFragment : Fragment(), UploadImagesContainer.Listener {
         }
 
         viewModel.productCreated.observe(viewLifecycleOwner, Observer {
-            binding.isLoading = it.status == Status.LOADING
+            binding.isLoading = it.status == Status.LOADING // update loading state on UI
             when (it.status) {
                 Status.ERROR -> {
-                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show() // show failure error
                 }
                 Status.SUCCESS -> {
-                    showSnackbar(binding.root, "Product created successfully!")
-                    requireActivity().onBackPressed()
+                    showSnackbar(binding.root, "Product created successfully!") // show success notification
+                    requireActivity().onBackPressed() // return to previous page
                 }
             }
         })
@@ -112,7 +112,9 @@ class UpsertProductFragment : Fragment(), UploadImagesContainer.Listener {
             }
         })
 
+        // set on-click listener for add/edit product button
         binding.upsertProductButton.setOnClickListener {
+            // start by uploading the images selected by the user
             uploadProductImages()
         }
 
@@ -129,6 +131,7 @@ class UpsertProductFragment : Fragment(), UploadImagesContainer.Listener {
 
     private fun uploadProductImages() {
 
+        // collect all data
         val name = binding.productName.editText?.text.toString()
         val desc = binding.productDescription.editText?.text.toString()
         val sharingText = binding.productSharingText.editText?.text.toString()
@@ -136,22 +139,25 @@ class UpsertProductFragment : Fragment(), UploadImagesContainer.Listener {
         val quantity = binding.productQuantity.editText?.text.toString()
         val category = ""
 
+        // ensure no data is left empty before forwarding to next block
         if (name.isEmpty() || desc.isEmpty() || sharingText.isEmpty() || price.isEmpty() || quantity.isEmpty()) {
-            showSnackbar(binding.root, "Please fill all fields")
+            showSnackbar(binding.root, "Please fill all fields") // show error if some fields are empty
             return
         }
 
         this.productName = name
         this.productImages = binding.uploadImagesContainer.getImages()
+        // ensure user uploads at least one image
         if (productImages.isEmpty()) {
             showSnackbar(binding.root, "Please upload at least one image")
             return
         }
 
+        // check if product is being edited or added
         if (binding.editMode!!) {
-            this.uploadEditedImages(productName)
+            this.uploadEditedImages(productName) // upload edited images (new ones only)
         } else {
-            this.uploadNextImage(productName, this.productImages[0])
+            this.uploadNextImage(productName, this.productImages[0]) // upload new images since product is a new one.
         }
 
     }
@@ -207,18 +213,26 @@ class UpsertProductFragment : Fragment(), UploadImagesContainer.Listener {
 
     }
 
+    // request image upload
     override fun onRequestImageUpload() {
+        // set intent to get a file from file system
         val selectFileIntent = Intent(Intent.ACTION_GET_CONTENT)
+        // set file type to image
         selectFileIntent.type = "image/*"
+        // launch intent to get file (image)
         startActivityForResult(selectFileIntent, Utils.REQUEST_FILE_CODE)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        // receive data in callback
         if (requestCode == Utils.REQUEST_FILE_CODE && resultCode == Activity.RESULT_OK) {
+            // ensure data returned is not NULL
             if (data != null) {
+                // get the file
                 val imageUri = data.data
                 imageUri?.let {
+                    // add the image to UI once Uniform Resource Identifier (URI) is not NULL
                     binding.uploadImagesContainer.addImage(imageUri)
                 }
             }

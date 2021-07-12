@@ -82,6 +82,7 @@ class ProductViewModel(
 
     }
 
+    // ViewModel logic to save sharedproduct
     fun saveSharedProduct(name: String, imageUrl: String, sharingText: String) {
         val sharedProduct = SharedProduct(
             UUID.randomUUID().toString(), name, System.currentTimeMillis(), imageUrl, sharingText
