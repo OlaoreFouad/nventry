@@ -3,6 +3,7 @@ package dev.olaore.nventry.utils
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.res.Resources
 import android.net.Uri
 import android.text.Spannable
 import android.text.SpannableString
@@ -14,6 +15,9 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
+import dev.olaore.nventry.R
+import dev.olaore.nventry.models.domain.Partner
+import java.util.*
 
 class CustomClickableSpan(
     private val instruction: () -> Unit
@@ -22,6 +26,17 @@ class CustomClickableSpan(
     override fun onClick(p0: View) {
         instruction.invoke()
     }
+
+}
+
+fun getStubPartners(): List<Partner> {
+
+    return listOf(
+        Partner(UUID.randomUUID().toString(), "Damilola", R.drawable.avatar_1, "d@dami@gmail.com"),
+        Partner(UUID.randomUUID().toString(), "Amotul-Mujeeb", R.drawable.avatar_2, "amah@gmail.com"),
+        Partner(UUID.randomUUID().toString(), "Salaudeen", R.drawable.avatar_3, "salaudeen@gmail.com"),
+        Partner(UUID.randomUUID().toString(), "Limzy", R.drawable.avatar_4, "limzy@gmail.com")
+    )
 
 }
 
